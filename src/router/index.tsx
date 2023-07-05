@@ -1,8 +1,16 @@
 import { Navigate, RouteObject } from 'react-router-dom'
 import React, { lazy } from 'react';
+import { Spin } from 'antd';
 
+// 路由来加载切换路由loading效果（必做的）
 const withLoadingComponent = (comp: JSX.Element) => (
-    <React.Suspense fallback={ <div>loading...</div> }>{ comp }</React.Suspense>
+    <React.Suspense fallback={
+      <div className="w100% h100% flex justify-center items-center">
+        <Spin tip="Loading" size="large">
+          <div className="content"/>
+        </Spin>
+      </div>
+    }>{ comp }</React.Suspense>
 )
 const MyLayout = lazy(() => import('@/layout/index'))
 const Login = lazy(() => import('@/views/Login'))
