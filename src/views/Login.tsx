@@ -1,10 +1,11 @@
 import { FC, ReactElement, useEffect, useRef, useState } from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { LOGIN } from '@/store/contant';
 import { Login_Reg_Data } from '@/server/user/types';
 import { getCaptchaApi, loginApi, registerApi } from '@/server/user';
 import { useNavigate } from 'react-router-dom';
+
 
 const Login: FC = (): ReactElement => {
   const dispatch = useDispatch()
@@ -19,15 +20,20 @@ const Login: FC = (): ReactElement => {
   const handleLogin = async (data: Login_Reg_Data) => {
     if (flag) {
       // 注册
-      console.log(data)
-      const res = await registerApi(data)
+      try {
+        const res = await registerApi(data)
+        console.log(res)
+        message.success(res.msg)
+      } catch (e) {
+
+      }
     } else {
       //登录
       try {
         const res = await loginApi(data)
         console.log(res);
-        // dispatch({ type: LOGIN, data: res.data.token })
-        // navigateTo('/home')
+        dispatch({ type: LOGIN, data: res.data.token })
+        navigateTo('/home')
       } catch (e) {
         console.log(e)
       }

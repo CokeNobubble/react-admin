@@ -10,12 +10,15 @@ import { Provider } from 'react-redux';
 import store from '@/store';
 // 引入uno.css
 import 'uno.css';
+import AuthRoute from '@/components/auth/permission';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ConfigProvider locale={ zhCN }>
       <BrowserRouter>
         <Provider store={ store }>
-          <App/>
+          <AuthRoute>
+            <App/>
+          </AuthRoute>
         </Provider>
       </BrowserRouter>
     </ConfigProvider>
