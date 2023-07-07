@@ -52,8 +52,8 @@ const Login: FC = (): ReactElement => {
   }
 
   return (
-      <div className="w100% h100% flex justify-center items-center">
-        <div className="w400px h400px b-rd-30px flex justify-center flex-col items-center b-coolgray b-1px">
+      <div className="w100% h100% flex justify-center items-center bg-#1e2030">
+        <div className="w400px h400px b-rd-30px flex justify-center flex-col items-center bg-#fff">
           <div className="w100% text-right mb-10px">
             <Button onClick={ () => setFlag((flag) => !flag) } className="mr-70px"
                     type="primary">{ flag ? '去登录' : '去注册' }</Button>
