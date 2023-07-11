@@ -1,5 +1,5 @@
 import { Navigate, RouteObject } from 'react-router-dom'
-import React, { lazy } from 'react';
+import React, { lazy, ReactElement } from 'react';
 import { Spin } from 'antd';
 
 // 路由来加载切换路由loading效果（必做的）
@@ -17,7 +17,20 @@ const Login = lazy(() => import('@/views/Login'))
 const Home = lazy(() => import('@/views/Home'))
 const DataCenter = lazy(() => import('@/views/DataCenter'))
 const PersonInfo = lazy(() => import('@/views/PersonInfo'))
-const routes: Array<RouteObject> = [
+
+type MetaType = {
+  title: string
+}
+
+type RouteType = {
+  path: string,
+  element: ReactElement,
+  children?: RouteType[],
+  meta?: MetaType,
+  index?: boolean
+}
+
+const routes: Array<RouteType> = [
   {
     path: '/',
     element: withLoadingComponent(<MyLayout/>),
@@ -25,7 +38,10 @@ const routes: Array<RouteObject> = [
       {
         index: true,
         path: '/home',
-        element: withLoadingComponent(<Home/>)
+        element: withLoadingComponent(<Home/>),
+        meta: {
+          title: '首页'
+        },
       },
       {
         path: '/dataCenter',

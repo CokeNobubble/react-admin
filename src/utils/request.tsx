@@ -2,6 +2,7 @@ import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import { message } from 'antd';
 import { getToken } from '@/utils/auth';
 import { IApiRes } from '@/interface';
+import { Navigate } from 'react-router-dom';
 
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -24,6 +25,10 @@ service.interceptors.response.use((response: AxiosResponse) => {
   const { code, msg } = response.data as IApiRes
   if (code === 200) {
     return response.data
+  } else if (code === 401) {
+    message.error(response.data.msg)
+    localStorage.clear()
+    return <Navigate to={ 'login' }></Navigate>
   }
   message.error(msg || '系统出错')
   return Promise.reject(new Error(msg || 'Error'))

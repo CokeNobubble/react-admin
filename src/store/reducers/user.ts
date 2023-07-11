@@ -1,20 +1,23 @@
 import { LOGIN } from '@/store/contant';
-import { setToken } from '@/utils/auth';
+import { getToken, setToken } from '@/utils/auth';
+import { IAction } from '@/interface';
 
-export interface IAction {
-  type: string,
-  data: string
+
+export interface IUser {
+  token: string
 }
 
-let token: string = ''
-export default function userReducer(preState = token, action: IAction) {
+let user: IUser = {
+  token: getToken() || ''
+}
+export default function userReducer(preState = user, action: IAction<string>) {
   const { type, data } = action
   switch (type) {
     case LOGIN:
-      token = data
-      setToken(token)
-      return preState
+      setToken(data)
+      return { ...preState, token: data }
     default:
       return preState
   }
 }
+
