@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate  } from 'react-router-dom';
 import { getToken, getUserinfo } from '@/utils/auth';
 import { getUserinfoApi } from '@/server/user';
 import { useDispatch } from 'react-redux';
 import { SET_USERINFO } from '@/store/contant';
-
 /*
  采用高阶组件做路由守卫
  */
 
-const indexRoute = '/'
+const indexRoute = '/home'
 const loginRoute = '/login'
 const whiteList = ['/login']
 

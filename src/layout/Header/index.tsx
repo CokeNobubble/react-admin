@@ -60,7 +60,7 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
               height: 64,
             } }
         />
-        <Avatar src={ url } onClick={ avatarClick } size={ 40 }>USER</Avatar>
+        <Avatar shape="square" src={ url } onClick={ avatarClick } size={ 55 }></Avatar>
         <input className="hidden" ref={ uploadIpt } onChange={ handleChange } type="file"/>
       </Header>
   )

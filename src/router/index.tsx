@@ -13,10 +13,10 @@ const withLoadingComponent = (comp: JSX.Element) => (
     }>{ comp }</React.Suspense>
 )
 const MyLayout = lazy(() => import('@/layout/index'))
-const Login = lazy(() => import('@/views/Login'))
-const Home = lazy(() => import('@/views/Home'))
-const DataCenter = lazy(() => import('@/views/DataCenter'))
-const PersonInfo = lazy(() => import('@/views/PersonInfo'))
+const Login = lazy(() => import('@/views/Login/Login'))
+const Home = lazy(() => import('@/views/Home/Home'))
+const DataCenter = lazy(() => import('@/views/DataCenter/DataCenter'))
+const PersonInfo = lazy(() => import('@/views/PersonInfo/PersonInfo'))
 
 type MetaType = {
   title: string
