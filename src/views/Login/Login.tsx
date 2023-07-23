@@ -2,7 +2,7 @@ import { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { SET_USERINFO, LOGIN } from '@/store/contant';
-import { Login_Reg_Data } from '@/server/user/types';
+import { Login_Reg_Data } from '@/server/user/type';
 import { getCaptchaApi, getUserinfoApi, loginApi, registerApi } from '@/server/user';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { Login_Reg_Data, ICaptchaData, IAvatarData } from '@/server/user/types';
+import { Login_Reg_Data, ICaptchaData, IAvatarData } from '@/server/user/type';
 
 export function loginApi(data: Login_Reg_Data) {
   return request({

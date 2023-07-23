@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import { Layout, Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { UserOutlined, VideoCameraOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
 import { ReactSVG } from 'react-svg';
 import sideBar from './index.module.css'
 import reactIcon from '@/assets/icons/react.svg'
@@ -17,14 +17,28 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
   const routeConfig = [
     {
       key: 'home',
-      icon: <UserOutlined/>,
+      icon: <HomeOutlined/>,
       label: '首页',
+
+    },
+    {
+      key: 'sysMag',
+      icon: <SettingOutlined/>,
+      label: '系统设置',
+      children: [
+        {
+          key: 'userMag',
+          icon: <UserOutlined/>,
+          label: '用户管理',
+        }
+      ]
     },
     {
       key: 'dataCenter',
       icon: <UserOutlined/>,
       label: '数据中心',
     },
+
     {
       key: 'personInfo',
       icon: <VideoCameraOutlined/>,
@@ -41,9 +55,7 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
             theme="dark"
             mode="inline"
             defaultSelectedKeys={ ['home'] }
-            onClick={ ({ key }) => {
-              navigateTo(key)
-            } }
+            onClick={ ({ key }) => navigateTo(key) }
             items={ routeConfig }
         />
       </Sider>

@@ -13,9 +13,14 @@ export interface IAction<T> {
   data: T
 }
 
+export interface ITheme {
+  themeColor: string,
+  themeMode: any
+}
 
 export interface IState {
   userReducer: IUser,
   userinfoReducer: IUserinfo,
-  count: number
+  count: number,
+  theme: ITheme
 }

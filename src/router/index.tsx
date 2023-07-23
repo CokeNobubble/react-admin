@@ -17,6 +17,8 @@ const Login = lazy(() => import('@/views/Login/Login'))
 const Home = lazy(() => import('@/views/Home/Home'))
 const DataCenter = lazy(() => import('@/views/DataCenter/DataCenter'))
 const PersonInfo = lazy(() => import('@/views/PersonInfo/PersonInfo'))
+const SysManage = lazy(() => import('@/views/SysMag/SysManage'))
+const UserManage = lazy(() => import('@/views/SysMag/userMag/UserManage'))
 
 type MetaType = {
   title: string
@@ -37,18 +39,26 @@ const routes: Array<RouteType> = [
     children: [
       {
         index: true,
-        path: '/home',
+        path: 'home',
         element: withLoadingComponent(<Home/>),
         meta: {
           title: '首页'
         },
       },
       {
-        path: '/dataCenter',
+        path: 'sysMag',
+        element: withLoadingComponent(<SysManage/>),
+      },
+      {
+        path: 'userMag',
+        element: withLoadingComponent(<UserManage/>)
+      },
+      {
+        path: 'dataCenter',
         element: withLoadingComponent(<DataCenter/>)
       },
       {
-        path: '/personInfo',
+        path: 'personInfo',
         element: withLoadingComponent(<PersonInfo/>)
       },
     ]
@@ -59,7 +69,7 @@ const routes: Array<RouteType> = [
   },
   {
     path: '/',
-    element: <Navigate to={ '/home' }></Navigate>
+    element: <Navigate to="/home"></Navigate>
   }
 ]
 

@@ -1,4 +1,4 @@
-import { FC, ReactElement, useContext, useMemo } from 'react';
+import { FC, ReactElement, useMemo } from 'react';
 import { Avatar, Col, Row } from 'antd';
 import { useSelector } from 'react-redux';
 import { IState } from '@/interface';
@@ -42,10 +42,10 @@ const Home: FC = (): ReactElement => {
           </Col>
         </Row>
         <Row gutter={ { xs: 8, sm: 16, md: 24, lg: 32 } }>
-          <SmallCard count={ 2000 } svgSrc={ access } title="访问数"/>
-          <SmallCard count={ 2000 } svgSrc={ message } title="消息数"/>
-          <SmallCard count={ 2000 } svgSrc={ money } title="收入金额"/>
-          <SmallCard count={ 2000 } svgSrc={ older } title="订单数"/>
+          <SmallCard count={ 9999 } svgSrc={ access } title="访问数"/>
+          <SmallCard count={ 9999 } svgSrc={ message } title="消息数"/>
+          <SmallCard count={ 9999 } svgSrc={ money } title="收入金额"/>
+          <SmallCard count={ 9999 } svgSrc={ older } title="订单数"/>
         </Row>
 
         <Row gutter={ 40 }>
