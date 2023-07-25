@@ -14,3 +14,7 @@ export interface ICaptchaData {
 export interface IAvatarData {
   user_pic: string
 }
+
+export interface IRemoveData {
+  id: number
+}

@@ -24,3 +24,12 @@ export interface IState {
   count: number,
   theme: ITheme
 }
+
+/**
+ * 分页
+ */
+export interface IPage {
+  size: number
+  current: number
+  total: number
+}

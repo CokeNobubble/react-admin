@@ -1,8 +1,11 @@
 import { FC, ReactElement, useEffect, useRef, useState } from 'react';
-import { Table, Tag, Button, Input, InputRef } from 'antd';
+import { Table, Tag, Button, Input, InputRef, Popconfirm, Pagination } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { getUserListApi } from '@/server/userMag';
 import React from 'react';
+import { IPage } from '@/interface';
+import { removeUserApi } from '@/server/user';
+import type { PaginationProps } from 'antd';
 
 interface ITable {
   username: string,
@@ -13,11 +16,10 @@ interface ITable {
 }
 
 const UserManage: FC = (): ReactElement => {
-
   const [tableData, setTableData] = useState<ITable[]>()
   const columns: ColumnsType<ITable> = [
     {
-      title: '序号',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id'
     },
@@ -48,34 +50,66 @@ const UserManage: FC = (): ReactElement => {
       render: (_, record) => (
           <>
             <Button type="link" onClick={ () => handleEditRow(record) }>编辑</Button>
-            <Button type="link" danger onClick={ () => handleRemoveRow(record) }>删除</Button>
+            <Popconfirm
+                title="删除"
+                description="你确定要删除吗?"
+                onConfirm={ () => handleRemoveRow(record) }
+                okText="是"
+                cancelText="否"
+            >
+              <Button danger type="link">删除</Button>
+            </Popconfirm>
           </>
       )
     },
   ];
 
-  useEffect(() => {
-    getUserList()
-  }, [])
-
+  const [page, setPage] = useState<IPage>({
+    size: 10,
+    current: 1,
+    total: 0
+  })
   const getUserList = async () => {
-    const res = await getUserListApi()
-    setTableData(res.data)
+    console.log(page, 'page')
+    const res = await getUserListApi(page)
+    setTableData(res.data.list)
+    setPage(res.data.page)
   }
 
   const handleEditRow = (record: ITable) => {
     // todo
     console.log(record)
   }
-  const handleRemoveRow = (record: ITable) => {
-    // todo
-    console.log(record)
+  const handleRemoveRow = async (record: ITable) => {
+    try {
+      await removeUserApi({ id: record.id })
+      getUserList()
+    } catch (e) {
+    }
   }
+
 
   const inputRef = useRef<InputRef>(null)
   const handleSearch = () => {
     // todo
     const value = inputRef.current!.input!.value
+  }
+
+  useEffect(() => {
+    getUserList()
+  }, [page.size, page.current])
+
+  const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current: number, size: number) => {
+    console.log(current, size)
+    setPage((prevState: IPage) => {
+      return { ...prevState, size }
+    })
+  }
+
+  const handleQuery: PaginationProps['onChange'] = (current: number) => {
+    setPage((prevState: IPage) => {
+      return { ...prevState, current }
+    })
   }
 
   return (
@@ -86,6 +120,16 @@ const UserManage: FC = (): ReactElement => {
           <Button type="primary" onClick={ handleSearch }>搜索</Button>
         </div>
         <Table pagination={ false } rowKey="id" bordered columns={ columns } dataSource={ tableData }/>
+        <div className="mt-10px text-right">
+          <Pagination
+              showSizeChanger
+              onShowSizeChange={ onShowSizeChange }
+              defaultCurrent={ page.current }
+              total={ page.total }
+              current={ page.current }
+              onChange={ handleQuery }
+          />
+        </div>
       </>
   )
 }

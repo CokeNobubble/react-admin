@@ -39,12 +39,6 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
     }
   ];
 
-  // 退出登录
-  const logout = (e) => {
-    console.log('1')
-    // localStorage.clear()
-    // location.reload()
-  }
   const avatarClick = () => {
     const ipt = uploadIpt.current! as HTMLInputElement
     ipt.click()
