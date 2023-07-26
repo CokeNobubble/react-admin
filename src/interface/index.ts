@@ -8,6 +8,9 @@ export interface IApiRes {
 }
 
 
+/**
+ * redux action
+ */
 export interface IAction<T> {
   type: string,
   data: T
@@ -18,6 +21,9 @@ export interface ITheme {
   themeMode: any
 }
 
+/**
+ * redux state
+ */
 export interface IState {
   userReducer: IUser,
   userinfoReducer: IUserinfo,

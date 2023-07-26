@@ -28,7 +28,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
   } else if (code === 401) {
     message.error(response.data.msg)
     localStorage.clear()
-    return <Navigate to={ 'login' }></Navigate>
+    return <Navigate to={ '/login' }></Navigate>
   }
   message.error(msg || '系统出错')
   return Promise.reject(new Error(msg || 'Error'))

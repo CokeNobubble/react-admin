@@ -1,7 +1,9 @@
-import { FC, ReactElement, useEffect, useRef, useState } from 'react';
-import { Table, Tag, Button, Input, InputRef, Popconfirm, Pagination } from 'antd';
+import { FC, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import { Table, Tag, Button, Input, InputRef, Popconfirm, Pagination, Modal, Form, Select, message } from 'antd';
+
+const { Option } = Select;
 import type { ColumnsType } from 'antd/es/table';
-import { getUserListApi } from '@/server/userMag';
+import { getUserListApi, searchUserApi, updateUserApi } from '@/server/userMag';
 import React from 'react';
 import { IPage } from '@/interface';
 import { removeUserApi } from '@/server/user';
@@ -15,8 +17,16 @@ interface ITable {
   id: number,
 }
 
+interface Iid {
+  id: number
+}
+
 const UserManage: FC = (): ReactElement => {
   const [tableData, setTableData] = useState<ITable[]>()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm()
+  const [id, setId] = useState<number>()
+
   const columns: ColumnsType<ITable> = [
     {
       title: 'ID',
@@ -70,7 +80,6 @@ const UserManage: FC = (): ReactElement => {
     total: 0
   })
   const getUserList = async () => {
-    console.log(page, 'page')
     const res = await getUserListApi(page)
     setTableData(res.data.list)
     setPage(res.data.page)
@@ -78,7 +87,9 @@ const UserManage: FC = (): ReactElement => {
 
   const handleEditRow = (record: ITable) => {
     // todo
-    console.log(record)
+    setId(record.id)
+    form.setFieldsValue(record)
+    setIsModalOpen(true)
   }
   const handleRemoveRow = async (record: ITable) => {
     try {
@@ -90,9 +101,27 @@ const UserManage: FC = (): ReactElement => {
 
 
   const inputRef = useRef<InputRef>(null)
-  const handleSearch = () => {
-    // todo
-    const value = inputRef.current!.input!.value
+  const handleSearch = async (keyword: string) => {
+    if (!keyword) return message.warning('请输入内容!')
+    const params = Object.assign({ keyword }, {
+      size: 10,
+      current: 1,
+      total: 0
+    })
+    const res = await searchUserApi(params)
+    setTableData(res.data.list)
+    setPage(res.data.page)
+  }
+
+  // 刷新表格
+  const refreshTable = () => {
+    getUserList()
+  }
+
+  const handleSearchByDown = (e: any) => {
+    if (e.keyCode === 13) {
+      handleSearch(e.target.value)
+    }
   }
 
   useEffect(() => {
@@ -100,7 +129,6 @@ const UserManage: FC = (): ReactElement => {
   }, [page.size, page.current])
 
   const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current: number, size: number) => {
-    console.log(current, size)
     setPage((prevState: IPage) => {
       return { ...prevState, size }
     })
@@ -112,24 +140,99 @@ const UserManage: FC = (): ReactElement => {
     })
   }
 
+  // 新增用户
+  // const handleAddUser = () => {
+  //   // todo
+  //   setIsModalOpen(true)
+  // }
+
+  const handleConfirm = () => {
+    form.validateFields().then(async (value) => {
+      const params = Object.assign(value, { id })
+      console.log(params)
+      const res = await updateUserApi(params)
+      message.success(res.msg)
+      getUserList()
+      handleCancel()
+    }).catch(err => {
+      console.log(err)
+    })
+
+  }
+  const handleCancel = () => {
+    form.resetFields()
+    setIsModalOpen(false)
+  }
+
+  const onFinish = () => () => {
+
+  }
+
+  const onFinishFailed = () => () => {
+
+  }
+
   return (
       <>
         <div className="flex gap-20px items-center mb-30px shadow p-20px">
+          {/*<Button type="primary" onClick={ handleAddUser }>新增</Button>*/ }
           <span>关键字</span>
-          <Input className="w300px" ref={ inputRef } placeholder="用户名/手机号"/>
-          <Button type="primary" onClick={ handleSearch }>搜索</Button>
+          <Input className="w300px" onKeyDown={ handleSearchByDown } ref={ inputRef } placeholder="用户名/手机号"/>
+          <Button type="primary" onClick={ () => handleSearch(inputRef.current!.input!.value) }>搜索</Button>
+          <Button type="primary" onClick={ refreshTable }>刷新</Button>
         </div>
-        <Table pagination={ false } rowKey="id" bordered columns={ columns } dataSource={ tableData }/>
+        <Table size="small" pagination={ false } rowKey="id" bordered columns={ columns } dataSource={ tableData }/>
         <div className="mt-10px text-right">
           <Pagination
               showSizeChanger
               onShowSizeChange={ onShowSizeChange }
               defaultCurrent={ page.current }
               total={ page.total }
+              showTotal={ (total) => `共 ${ total } 条` }
               current={ page.current }
               onChange={ handleQuery }
           />
         </div>
+        <Modal title="编辑" open={ isModalOpen } onOk={ handleConfirm } onCancel={ handleCancel }>
+          <Form
+              name="basic"
+              labelCol={ { span: 6 } }
+              wrapperCol={ { span: 15 } }
+              style={ { maxWidth: 600 } }
+              onFinish={ onFinish }
+              onFinishFailed={ onFinishFailed }
+              autoComplete="off"
+              form={ form }
+          >
+            <Form.Item
+                label="用户昵称"
+                name="nickname"
+                rules={ [{ required: true, message: '请输入昵称' }] }
+            >
+              <Input/>
+            </Form.Item>
+            <Form.Item
+                label="性别"
+                name="sex"
+                rules={ [{ required: true, message: '请输入性别' }] }
+            >
+              <Select
+                  placeholder="请选择性别"
+                  allowClear
+              >
+                <Option value="男">男</Option>
+                <Option value="女">女</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+                label="手机号"
+                name="phone"
+                rules={ [{ required: true, message: '请输入手机号' }] }
+            >
+              <Input/>
+            </Form.Item>
+          </Form>
+        </Modal>
       </>
   )
 }
