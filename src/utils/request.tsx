@@ -13,7 +13,7 @@ const service = axios.create({
 service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = getToken()
   if (token) { //如果有token
-    config.headers.Authorization = token
+    config.headers.Authorization =`Bearer ${token}`
   }
   return config
 }, (error: any) => {
@@ -23,24 +23,55 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 service.interceptors.response.use((response: AxiosResponse) => {
   console.log(response, 'resp')
   const { code, msg } = response.data as IApiRes
-  if (code === 200) {
-    return response.data
-  } else if (code === 401) {
+  if (code!==0) {
     message.error(response.data.msg)
     localStorage.clear()
     return <Navigate to={ '/login' }></Navigate>
+  }else  {
+    return response.data
   }
-  message.error(msg || '系统出错')
-  return Promise.reject(new Error(msg || 'Error'))
-}, (error: any) => {
-  console.log(error, 'error')
-  const { code, msg } = error.response.data
-  if (code === 400) {
-    message.error(msg || '系统出错');
-  } else if (code === 401) {
-    message.error(msg || 'token失效')
+}, (err: any) => {
+  console.log(err, 'error')
+  const {status,data} = err.response
+  switch (status){
+    case 400:
+      err.message = data.msg;
+      break;
+    case 401:
+      err.message = "未授权，请登录";
+      break;
+    case 403:
+      err.message = "拒绝访问";
+      break;
+    case 404:
+      err.message = `请求地址出错: ${err.response.config.url}`;
+      break;
+    case 408:
+      err.message = "请求超时";
+      break;
+    case 500:
+      err.message = "服务器内部错误";
+      break;
+    case 501:
+      err.message = "服务未实现";
+      break;
+    case 502:
+      // err.message = '网关错误'
+      err.message = "请稍等，系统正在更新…";
+      break;
+    case 503:
+      err.message = "服务不可用";
+      break;
+    case 504:
+      err.message = "网关超时";
+      break;
+    case 505:
+      err.message = "HTTP版本不受支持";
+      break;
+    default:
   }
-  return Promise.reject(error.message)
+  message.error(err.message)
+  return Promise.reject(err)
 })
 
 

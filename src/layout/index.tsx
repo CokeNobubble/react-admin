@@ -11,7 +11,8 @@ import { IState } from '@/interface';
 const MyLayout: FC = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate()
-  const { themeColor, themeMode } = useSelector((state: IState) => state.theme)
+  const { themeColor } = useSelector((state: IState) => state.theme)
+  const { themeMode } = useSelector((state: IState) => state.themeMode)
   useEffect(() => {
     // 访问根路由 重定向到首页
     navigate('/home')

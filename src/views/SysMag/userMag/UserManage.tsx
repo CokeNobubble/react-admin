@@ -1,9 +1,9 @@
-import { FC, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { Table, Tag, Button, Input, InputRef, Popconfirm, Pagination, Modal, Form, Select, message } from 'antd';
 
 const { Option } = Select;
 import type { ColumnsType } from 'antd/es/table';
-import { getUserListApi, searchUserApi, updateUserApi } from '@/server/userMag';
+import { exportExcelApi, getUserListApi, updateUserApi } from '@/server/userMag';
 import React from 'react';
 import { IPage } from '@/interface';
 import { removeUserApi } from '@/server/user';
@@ -25,7 +25,7 @@ const UserManage: FC = (): ReactElement => {
   const [tableData, setTableData] = useState<ITable[]>()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm()
-  const [id, setId] = useState<number>()
+  const [id, setId] = useState<number>(0)
 
   const columns: ColumnsType<ITable> = [
     {
@@ -77,10 +77,12 @@ const UserManage: FC = (): ReactElement => {
   const [page, setPage] = useState<IPage>({
     size: 10,
     current: 1,
-    total: 0
+    total: 0,
   })
   const getUserList = async () => {
-    const res = await getUserListApi(page)
+    const params = Object.assign(page, { keyword: '' })
+    const res = await getUserListApi(params)
+    console.log(res)
     setTableData(res.data.list)
     setPage(res.data.page)
   }
@@ -102,13 +104,12 @@ const UserManage: FC = (): ReactElement => {
 
   const inputRef = useRef<InputRef>(null)
   const handleSearch = async (keyword: string) => {
-    if (!keyword) return message.warning('请输入内容!')
     const params = Object.assign({ keyword }, {
       size: 10,
       current: 1,
       total: 0
     })
-    const res = await searchUserApi(params)
+    const res = await getUserListApi(params)
     setTableData(res.data.list)
     setPage(res.data.page)
   }
@@ -125,7 +126,7 @@ const UserManage: FC = (): ReactElement => {
   }
 
   useEffect(() => {
-    getUserList()
+     getUserList()
   }, [page.size, page.current])
 
   const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current: number, size: number) => {
@@ -148,10 +149,8 @@ const UserManage: FC = (): ReactElement => {
 
   const handleConfirm = () => {
     form.validateFields().then(async (value) => {
-      const params = Object.assign(value, { id })
-      console.log(params)
-      const res = await updateUserApi(params)
-      message.success(res.msg)
+      const res = await updateUserApi(id,value)
+      message.success(res.data)
       getUserList()
       handleCancel()
     }).catch(err => {
@@ -172,16 +171,44 @@ const UserManage: FC = (): ReactElement => {
 
   }
 
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  // 导出excel
+  const exportExcel = async () => {
+    if (selectedRowKeys.length === 0) return message.warning('请选择导出行!')
+    const res = await exportExcelApi()
+    console.log(res)
+    // console.log(selectedRowKeys)
+  }
+
   return (
       <>
-        <div className="flex gap-20px items-center mb-30px shadow p-20px">
-          {/*<Button type="primary" onClick={ handleAddUser }>新增</Button>*/ }
-          <span>关键字</span>
-          <Input className="w300px" onKeyDown={ handleSearchByDown } ref={ inputRef } placeholder="用户名/手机号"/>
-          <Button type="primary" onClick={ () => handleSearch(inputRef.current!.input!.value) }>搜索</Button>
-          <Button type="primary" onClick={ refreshTable }>刷新</Button>
+        <div className="flex justify-between items-center mb-30px shadow p-20px">
+          <div className="flex gap-20px items-center">
+            {/*<Button type="primary" onClick={ handleAddUser }>新增</Button>*/ }
+            <span>关键字</span>
+            <Input className="w300px" onKeyDown={ handleSearchByDown } ref={ inputRef } placeholder="用户名/手机号"/>
+            <Button type="primary" onClick={ () => handleSearch(inputRef.current!.input!.value) }>搜索</Button>
+            <Button type="primary" onClick={ refreshTable }>刷新</Button>
+          </div>
+          <div className="flex gap-20px">
+            <Button type="primary" onClick={ exportExcel }>导出选中</Button>
+            <Button type="primary" onClick={ exportExcel }>导出所有</Button>
+          </div>
         </div>
-        <Table size="small" pagination={ false } rowKey="id" bordered columns={ columns } dataSource={ tableData }/>
+        <Table rowSelection={ rowSelection } size="small" pagination={ false } rowKey="id" bordered columns={ columns }
+               dataSource={ tableData }/>
         <div className="mt-10px text-right">
           <Pagination
               showSizeChanger

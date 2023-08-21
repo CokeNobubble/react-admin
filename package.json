@@ -20,7 +20,8 @@
     "react-svg": "^16.1.18",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "sass": "^1.66.1"
   },
   "devDependencies": {
     "@types/node": "^18.14.2",

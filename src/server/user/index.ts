@@ -30,7 +30,7 @@ export function getCaptchaApi(data: ICaptchaData) {
 // 上传头像 通过base64
 export function updateAvatar(data: IAvatarData) {
   return request({
-    url: '/api/userinfo/updateAvatar',
+    url: '/userinfo/updateAvatar',
     method: 'post',
     data
   })
@@ -39,14 +39,14 @@ export function updateAvatar(data: IAvatarData) {
 // 获取用户信息
 export function getUserinfoApi() {
   return request({
-    url: '/api/userinfo',
+    url: '/user',
     method: 'get',
   })
 }
 
 export function removeUserApi(data: IRemoveData) {
   return request({
-    url: '/api/userinfo/remove',
+    url: '/user/remove',
     method: 'delete',
     data
   })

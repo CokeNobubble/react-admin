@@ -10,9 +10,10 @@ import SmallCard from '@/components/SmallCard';
 import BarGraph from '@/components/chart/BarGraph';
 import PieGraph from '@/components/chart/PieGraph';
 import RadarGraph from '@/components/chart/RadarGraph';
+import { IUserinfo } from '@/store/reducers/userinfo';
 
 const Home: FC = (): ReactElement => {
-  const user_pic = useSelector((state: IState) => state.userinfoReducer.user_pic)
+  const userinfo: IUserinfo = useSelector((state: IState) => state.userinfoReducer)
   const greet = useMemo(() => {
     const hour: number = new Date().getHours()
     if (hour >= 0 && hour < 6) {
@@ -26,6 +27,10 @@ const Home: FC = (): ReactElement => {
     }
   }, [])
 
+  const url = useMemo(() => {
+    return `http://localhost:3005/${ userinfo.user_pic }`
+  }, [userinfo.user_pic])
+
 
   return (
       <div className="flex gap-30px flex-col">
@@ -33,8 +38,8 @@ const Home: FC = (): ReactElement => {
           <Col span={ 24 }>
             <div className="shadow-xl p-20px flex items-center rounded-lg justify-between">
               <div className="flex items-center gap-10px">
-                <Avatar src={ user_pic } size={ 55 }></Avatar>
-                <h1 className="ml-10px text-16px">系统管理员</h1>
+                <Avatar src={ url } size={ 55 }></Avatar>
+                <h1 className="ml-10px text-16px">Hi,{ userinfo.nickname }</h1>
               </div>
               <h1>{ greet }</h1>
               <h1>github</h1>

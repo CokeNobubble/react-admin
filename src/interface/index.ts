@@ -18,7 +18,6 @@ export interface IAction<T> {
 
 export interface ITheme {
   themeColor: string,
-  themeMode: any
 }
 
 /**
@@ -28,7 +27,8 @@ export interface IState {
   userReducer: IUser,
   userinfoReducer: IUserinfo,
   count: number,
-  theme: ITheme
+  theme: ITheme,
+  themeMode: any
 }
 
 /**
@@ -39,3 +39,4 @@ export interface IPage {
   current: number
   total: number
 }
+

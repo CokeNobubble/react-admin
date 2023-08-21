@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { IPage } from '@/interface';
 import { ISearchUserData, IUpdateUserData } from '@/server/userMag/type';
 
 
@@ -7,30 +6,31 @@ import { ISearchUserData, IUpdateUserData } from '@/server/userMag/type';
  * 获取用户列表
  * @param data
  */
-export function getUserListApi(data: IPage) {
+export function getUserListApi(data: ISearchUserData) {
   return request({
-    url: '/api/userList',
+    url: '/user/list',
     method: 'get',
     params: data
   })
 }
 
+
 /**
- * 编辑用户
- * @param data
+ *
+ * @param id 用户id
+ * @param data 更新内容
  */
-export function updateUserApi(data: IUpdateUserData) {
+export function updateUserApi(id:number,data:IUpdateUserData) {
   return request({
-    url: '/api/userinfo/update',
-    method: 'post',
+    url: `/user/${id}`,
+    method: 'patch',
     data
   })
 }
 
-export function searchUserApi(data: ISearchUserData) {
+export function exportExcelApi() {
   return request({
-    url: '/api/userinfo/search',
-    method: 'post',
-    data
+    url: '/api/userinfo/excel',
+    method: 'get',
   })
 }

@@ -1,10 +1,9 @@
-import { SET_THEME_COLOR, SET_THEME_MODE } from '@/store/contant';
-import { getThemeColor, getThemeMode, setThemeColor, setThemeMode } from '@/utils/theme';
-import { theme } from 'antd';
+import { SET_THEME_COLOR } from '@/store/contant';
+import { getThemeColor, setThemeColor } from '@/utils/theme';
 
 let initState = {
   themeColor: getThemeColor() || '#2f98f1',
-  themeMode: getThemeMode() || theme.defaultAlgorithm
+  // themeMode: getThemeMode() || theme.defaultAlgorithm
 }
 type IAction = {
   data: string | Function,
@@ -18,10 +17,6 @@ export default (state = initState, action: IAction) => {
       // 本地存储保存
       setThemeColor(data as string)
       return { ...initState, themeColor: data }
-    case SET_THEME_MODE:
-      // 本地存储保存
-      // setThemeMode(data)
-      return { ...initState, themeMode: data }
     default:
       return state
   }

@@ -23,9 +23,9 @@ const Login: FC = (): ReactElement => {
       try {
         const res = await registerApi(data)
         console.log(res)
-        message.success(res.msg)
+        message.success(res.data)
       } catch (e) {
-
+        console.log(e)
       }
     } else {
       //登录
@@ -34,10 +34,10 @@ const Login: FC = (): ReactElement => {
         console.log(res);
         dispatch({ type: LOGIN, data: res.data.token })
         // 先去请求用户信息
-        getUserinfoApi().then(res => {
-          console.log(res)
-          dispatch({ type: SET_USERINFO, data: res.data })
-        })
+        // getUserinfoApi().then(res => {
+        //   console.log(res)
+        //   dispatch({ type: SET_USERINFO, data: res.data })
+        // })
         navigateTo('/home')
       } catch (e) {
         console.log(e)
