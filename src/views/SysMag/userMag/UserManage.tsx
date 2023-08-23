@@ -1,13 +1,14 @@
 import { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { Table, Tag, Button, Input, InputRef, Popconfirm, Pagination, Modal, Form, Select, message } from 'antd';
-
-const { Option } = Select;
 import type { ColumnsType } from 'antd/es/table';
 import { exportExcelApi, getUserListApi, updateUserApi } from '@/server/userMag';
 import React from 'react';
 import { IPage } from '@/interface';
 import { removeUserApi } from '@/server/user';
 import type { PaginationProps } from 'antd';
+import axios from 'axios';
+import { getToken } from '@/utils/auth';
+import { IExportData } from '@/server/userMag/type';
 
 interface ITable {
   username: string,
@@ -26,7 +27,8 @@ const UserManage: FC = (): ReactElement => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm()
   const [id, setId] = useState<number>(0)
-
+  const { TextArea } = Input
+  const { Option } = Select;
   const columns: ColumnsType<ITable> = [
     {
       title: 'ID',
@@ -53,6 +55,16 @@ const UserManage: FC = (): ReactElement => {
       title: '手机号',
       key: 'phone',
       dataIndex: 'phone',
+    },
+    {
+      title: '描述',
+      key: 'desc',
+      dataIndex: 'desc',
+    },
+    {
+      title: '创建时间',
+      key: 'createTime',
+      dataIndex: 'createTime',
     },
     {
       title: '操作',
@@ -126,7 +138,7 @@ const UserManage: FC = (): ReactElement => {
   }
 
   useEffect(() => {
-     getUserList()
+    getUserList()
   }, [page.size, page.current])
 
   const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current: number, size: number) => {
@@ -149,7 +161,7 @@ const UserManage: FC = (): ReactElement => {
 
   const handleConfirm = () => {
     form.validateFields().then(async (value) => {
-      const res = await updateUserApi(id,value)
+      const res = await updateUserApi(id, value)
       message.success(res.data)
       getUserList()
       handleCancel()
@@ -187,9 +199,16 @@ const UserManage: FC = (): ReactElement => {
   // 导出excel
   const exportExcel = async () => {
     if (selectedRowKeys.length === 0) return message.warning('请选择导出行!')
-    const res = await exportExcelApi()
-    console.log(res)
-    // console.log(selectedRowKeys)
+    console.log(selectedRowKeys)
+    const res = await exportExcelApi({ ids: selectedRowKeys as number[] | [] })
+    const uint8Array = new Uint8Array(res.data.data);
+    const blob = new Blob([uint8Array], { type: 'application/octet-stream' })
+    const a: HTMLAnchorElement = document.createElement('a');
+    const blobUrl: string = URL.createObjectURL(blob)
+    a.href = blobUrl;
+    a.download = '用户表.xlsx';
+    a.click();
+    window.URL.revokeObjectURL(blobUrl)
   }
 
   return (
@@ -203,8 +222,8 @@ const UserManage: FC = (): ReactElement => {
             <Button type="primary" onClick={ refreshTable }>刷新</Button>
           </div>
           <div className="flex gap-20px">
-            <Button type="primary" onClick={ exportExcel }>导出选中</Button>
-            <Button type="primary" onClick={ exportExcel }>导出所有</Button>
+            <Button type="primary" onClick={ exportExcel }>导出</Button>
+            {/*<Button type="primary" onClick={ exportExcel }>导出所有</Button>*/}
           </div>
         </div>
         <Table rowSelection={ rowSelection } size="small" pagination={ false } rowKey="id" bordered columns={ columns }
@@ -257,6 +276,12 @@ const UserManage: FC = (): ReactElement => {
                 rules={ [{ required: true, message: '请输入手机号' }] }
             >
               <Input/>
+            </Form.Item>
+            <Form.Item
+                label="描述"
+                name="desc"
+            >
+              <TextArea rows={ 4 } placeholder="请输入内容" maxLength={ 6 }/>
             </Form.Item>
           </Form>
         </Modal>

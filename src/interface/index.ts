@@ -4,7 +4,8 @@ import { IUserinfo } from '@/store/reducers/userinfo';
 export interface IApiRes {
   code: number,
   data: null,
-  msg: string
+  msg: string,
+  success:boolean
 }
 
 
