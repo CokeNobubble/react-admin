@@ -11,6 +11,4 @@ export interface ISearchUserData extends IPage {
   keyword: string
 }
 
-export interface IExportData {
-  ids: number[] | []
-}
+

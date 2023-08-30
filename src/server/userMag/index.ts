@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { IExportData, ISearchUserData, IUpdateUserData } from '@/server/userMag/type';
+import { ISearchUserData, IUpdateUserData } from '@/server/userMag/type';
 
 
 /**
@@ -20,18 +20,17 @@ export function getUserListApi(data: ISearchUserData) {
  * @param id 用户id
  * @param data 更新内容
  */
-export function updateUserApi(id: number, data: IUpdateUserData) {
+export function updateUserApi(id:number,data:IUpdateUserData) {
   return request({
-    url: `/user/${ id }`,
+    url: `/user/${id}`,
     method: 'patch',
     data
   })
 }
 
-export function exportExcelApi(data: IExportData) {
+export function exportExcelApi() {
   return request({
-    url: '/user/exportExcel',
+    url: '/api/userinfo/excel',
     method: 'get',
-    params: data
   })
 }
