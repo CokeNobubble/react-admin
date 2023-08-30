@@ -199,9 +199,9 @@ const UserManage: FC = (): ReactElement => {
   // 导出excel
   const exportExcel = async () => {
     if (selectedRowKeys.length === 0) return message.warning('请选择导出行!')
-    console.log(selectedRowKeys)
     const res = await exportExcelApi({ ids: selectedRowKeys as number[] | [] })
     const uint8Array = new Uint8Array(res.data.data);
+    // 将buffer转化为blob
     const blob = new Blob([uint8Array], { type: 'application/octet-stream' })
     const a: HTMLAnchorElement = document.createElement('a');
     const blobUrl: string = URL.createObjectURL(blob)
