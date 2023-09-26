@@ -5,6 +5,7 @@ import UnoCSS from "unocss/vite";
 // 用于支持svgIcon
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import path from "path";
+
 const pathSrc = path.resolve(__dirname, "src");
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
@@ -38,6 +39,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
       },
     },
-    base: '/react/'
+    base: "/react/",
   };
 });
