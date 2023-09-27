@@ -14,6 +14,7 @@ import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import style from "./index.module.scss";
 import Crumbs from "../Crumbs";
+import { RcFile } from "antd/es/upload";
 const { Header } = Layout;
 
 interface Props {
@@ -37,9 +38,10 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
     headers: {
       authorization: `Bearer ${getToken()}`,
     },
-    beforeUpload: (file) => {
+    beforeUpload: (file: RcFile) => {
       console.log(file);
-      const isPNG: boolean = file.type === "image/jpeg";
+      const isPNG: boolean = file.type === "image/png";
+      console.log(isPNG);
       if (!isPNG) {
         message.error(`请选择图片格式文件`);
       }

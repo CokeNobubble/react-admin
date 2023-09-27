@@ -6,12 +6,11 @@ type RouteProps = {
   children: React.ReactNode;
   title: string;
 };
-const WebTitle: FC<RouteProps> = (props): ReactElement => {
+const WebTitle: FC<RouteProps> = ({ children, title }): ReactElement => {
   useEffect(() => {
-    document.title = props.title;
+    document.title = title;
   });
-  console.log(props);
-  return <>{props.children}</>;
+  return <>{children}</>;
 };
 
 export default WebTitle;

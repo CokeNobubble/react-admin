@@ -1,18 +1,34 @@
-export type ITags = {
-  path: string;
-  name: string;
+import { IAction } from "@/interface";
+import { ADD_TAG, ClOSE_TAG, CLICK_TAG } from "../contant";
+export type ITag = {
+  key: string;
+  label: string;
+  isClose: boolean;
 };
 
-let initState = {
-  tags: [],
-  activeTag: {},
+export type ICrumbs = {
+  activeTag: ITag;
+  tags: ITag[];
 };
-export default (state = initState, action) => {
+
+let initState: ICrumbs = {
+  tags: [
+    {
+      key: "home",
+      label: "首页",
+      isClose: false,
+    },
+  ],
+  activeTag: { key: "home", label: "首页", isClose: false },
+};
+export default (state = initState, action: IAction<ICrumbs>) => {
   const { type, data } = action;
-  console.log(type, data);
   switch (type) {
-    case "1":
-      return {};
+    case ADD_TAG:
+    case ClOSE_TAG:
+      return { ...state, activeTag: data.activeTag, tags: data.tags };
+    case CLICK_TAG:
+      return { ...state, activeTag: data.activeTag };
     default:
       return state;
   }
