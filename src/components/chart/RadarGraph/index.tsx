@@ -1,7 +1,7 @@
 import { FC, ReactElement, useEffect } from "react";
 import * as echarts from "echarts";
 import { EChartsOption } from "echarts";
-import { useResizeChart } from "@/hooks/useResizeChart";
+import { useDebounceFn } from "ahooks";
 
 interface IProps {
   id: string;
@@ -12,15 +12,24 @@ const RadarGraph: FC<IProps> = ({
   id = "radarChart",
   className = "",
 }): ReactElement => {
-  const { chartResize } = useResizeChart(id);
+  let chart: echarts.ECharts;
+
+  const handleResize = () => {
+    chart.resize();
+  };
+
+  const { run } = useDebounceFn(handleResize, {
+    wait: 100,
+  });
+
   useEffect(() => {
     initChart();
-    window.addEventListener("resize", chartResize);
+    window.addEventListener("resize", run);
   }, [window.innerHeight, window.innerWidth]);
 
   const initChart = (): void => {
     const chartDom = document.getElementById(id);
-    const myChart = echarts.init(chartDom as HTMLElement);
+    chart = echarts.init(chartDom as HTMLElement);
     const option: EChartsOption = {
       grid: {
         left: "2%",
@@ -77,7 +86,7 @@ const RadarGraph: FC<IProps> = ({
         },
       ],
     };
-    option && myChart.setOption(option);
+    option && chart.setOption(option);
   };
 
   return (

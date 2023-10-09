@@ -135,7 +135,6 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
         )}
       </div>
       <Menu
-        openKeys={[currentPath]}
         theme="dark"
         mode="inline"
         selectedKeys={[currentPath]}

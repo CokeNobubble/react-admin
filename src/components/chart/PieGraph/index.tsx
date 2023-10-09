@@ -1,6 +1,6 @@
 import { FC, ReactElement, useEffect } from "react";
 import * as echarts from "echarts";
-import { useResizeChart } from "@/hooks/useResizeChart";
+import { useDebounceFn } from "ahooks";
 
 type EChartsOption = echarts.EChartsOption;
 
@@ -13,16 +13,23 @@ const PeiGraph: FC<IProps> = ({
   id = "pieChart",
   className = "",
 }): ReactElement => {
-  const { chartResize } = useResizeChart(id);
+  let chart: echarts.ECharts;
+  const handleResize = () => {
+    chart.resize();
+  };
+
+  const { run } = useDebounceFn(handleResize, {
+    wait: 100,
+  });
 
   useEffect(() => {
     initChart();
-    window.addEventListener("resize", chartResize);
+    window.addEventListener("resize", run);
   }, [window.innerHeight, window.innerWidth]);
 
   const initChart = () => {
     const chartDom = document.getElementById(id);
-    const myChart = echarts.init(chartDom as HTMLElement);
+    chart = echarts.init(chartDom as HTMLElement);
     let option: EChartsOption = {
       grid: {
         left: "2%",
@@ -60,7 +67,7 @@ const PeiGraph: FC<IProps> = ({
         },
       ],
     };
-    option && myChart.setOption(option);
+    option && chart.setOption(option);
   };
   return (
     <div className="shadow-xl w100% p-20px flex-1 flex flex-col">
