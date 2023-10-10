@@ -53,11 +53,10 @@ const Home: FC = (): ReactElement => {
         <SmallCard count={9999} svgSrc={money} title="收入金额" />
         <SmallCard count={9999} svgSrc={older} title="订单数" />
       </Row>
-
       <div className="flex justify-between gap-20px flex-1">
-        <BarGraph id="BarGraph"></BarGraph>
-        <PieGraph id="PieGraph"></PieGraph>
-        <RadarGraph id="RadarGraph"></RadarGraph>
+        <BarGraph title="柱状图" id="BarGraph"></BarGraph>
+        <PieGraph title="饼图" id="PieGraph"></PieGraph>
+        <RadarGraph title="雷达图" id="RadarGraph"></RadarGraph>
       </div>
     </div>
   );

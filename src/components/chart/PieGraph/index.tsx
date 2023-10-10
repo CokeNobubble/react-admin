@@ -7,11 +7,13 @@ type EChartsOption = echarts.EChartsOption;
 interface IProps {
   id: string;
   className?: string;
+  title: string;
 }
 
 const PeiGraph: FC<IProps> = ({
   id = "pieChart",
   className = "",
+  title,
 }): ReactElement => {
   let chart: echarts.ECharts;
   const handleResize = () => {
@@ -70,9 +72,9 @@ const PeiGraph: FC<IProps> = ({
     option && chart.setOption(option);
   };
   return (
-    <div className="shadow-xl w100% p-20px flex-1 flex flex-col">
-      <h1>饼图</h1>
-      <div style={{ flex: 1 }} id={id} className={className}></div>
+    <div className="shadow-xl p-20px flex-1 flex flex-col">
+      <h1>{title}</h1>
+      <div id={id} className={`${className} flex-1`}></div>
     </div>
   );
 };
