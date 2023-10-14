@@ -10,8 +10,9 @@ import {
   registerApi,
 } from "@/server/user";
 import { useNavigate } from "react-router-dom";
+import { useImage } from '@/hooks/useImage';
 
-const Login: FC = (): ReactElement => {
+const Index: FC = (): ReactElement => {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const divRef = useRef<HTMLDivElement>(null);
@@ -59,8 +60,11 @@ const Login: FC = (): ReactElement => {
     divRef!.current!.innerHTML = res.data;
   };
 
+  const {handleImage} = useImage()
+  const bg = handleImage('bg.jpg')
+
   return (
-    <div className="w100% h100% flex justify-center items-center bg-#1e2030">
+    <div style={{backgroundImage: 'url('+bg+')'}}  className="wh-full flex justify-center items-center bg-cover">
       <div className="w400px h400px b-rd-30px flex justify-center flex-col items-center bg-#fff">
         <div className="w100% text-right mb-10px">
           <Button
@@ -117,4 +121,4 @@ const Login: FC = (): ReactElement => {
   );
 };
 
-export default Login;
+export default Index;

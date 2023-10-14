@@ -6,6 +6,7 @@ import count from "@/store/reducers/count";
 import theme from "./theme";
 import themeMode from "@/store/reducers/themeMode";
 import crumbs from "./crumbs";
+import permission from '@/store/reducers/permission';
 
 export default combineReducers({
   userReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
   theme,
   themeMode,
   crumbs,
+  permission
 });

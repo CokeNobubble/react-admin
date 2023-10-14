@@ -17,6 +17,8 @@ const PeiGraph: FC<IProps> = ({
 }): ReactElement => {
   let chart: echarts.ECharts;
   const handleResize = () => {
+    const chartDom = document.getElementById(id);
+    chart = echarts.init(chartDom as HTMLElement);
     chart.resize();
   };
 

@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 
-const PersonInfo: FC = (): ReactElement => {
+const Index: FC = (): ReactElement => {
   return (
       <div>
         个人信息
@@ -8,4 +8,4 @@ const PersonInfo: FC = (): ReactElement => {
   )
 }
 
-export default PersonInfo
+export default Index

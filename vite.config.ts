@@ -12,7 +12,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 
   return {
     plugins: [
-      UnoCSS(),
+      UnoCSS({
+        configFile:"./src/uno.config.ts",
+      }),
       react(),
       createSvgIconsPlugin({
         // 指定需要缓存的图标文件夹

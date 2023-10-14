@@ -1,6 +1,6 @@
 
 
-function Register (){
+function Index (){
   return (
       <div>
         <h1>注册</h1>
@@ -8,4 +8,4 @@ function Register (){
   )
 }
 
-export default Register
+export default Index

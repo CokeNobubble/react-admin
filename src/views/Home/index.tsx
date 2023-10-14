@@ -1,4 +1,4 @@
-import { FC, ReactElement, useMemo } from "react";
+import { FC, ReactElement, useEffect, useMemo } from 'react';
 import { Avatar, Col, Row } from "antd";
 import { useSelector } from "react-redux";
 import { IState } from "@/interface";
@@ -32,6 +32,10 @@ const Home: FC = (): ReactElement => {
   const url = useMemo(() => {
     return `http://localhost:3005/${userinfo.user_pic}`;
   }, [userinfo.user_pic]);
+
+  useEffect(()=>{
+    document.title = "首页"
+  })
 
   return (
     <div className="flex gap-30px flex-col h-full  w-full">

@@ -1,6 +1,7 @@
 import { IUser } from "@/store/reducers/user";
 import { IUserinfo } from "@/store/reducers/userinfo";
 import { ICrumbs } from "@/store/reducers/crumbs";
+import { IPermissionState } from '@/store/reducers/permission';
 export interface IApiRes {
   code: number;
   data: null;
@@ -30,6 +31,7 @@ export interface IState {
   theme: ITheme;
   themeMode: any;
   crumbs: ICrumbs;
+  permission: IPermissionState;
 }
 
 /**

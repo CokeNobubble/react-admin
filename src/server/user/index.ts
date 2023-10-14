@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { Login_Reg_Data, ICaptchaData, IAvatarData, IRemoveData } from '@/server/user/type';
+import { Login_Reg_Data, ICaptchaData, IAvatarData, IRemoveData, IRouteData } from '@/server/user/type';
 
 export function loginApi(data: Login_Reg_Data) {
   return request({
@@ -49,5 +49,14 @@ export function removeUserApi(data: IRemoveData) {
     url: '/user/remove',
     method: 'delete',
     data
+  })
+}
+
+
+export function getRoutesApi(data: IRouteData) {
+  return request({
+    url: '/routes',
+    method: 'get',
+    params:data
   })
 }

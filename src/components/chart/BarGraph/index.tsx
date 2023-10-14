@@ -18,6 +18,8 @@ const BarGraph: FC<IProps> = ({
   let chart: echarts.ECharts;
 
   const handleResize = () => {
+    const chartDom = document.getElementById(id);
+    chart = echarts.init(chartDom as HTMLElement);
     chart.resize();
   };
 

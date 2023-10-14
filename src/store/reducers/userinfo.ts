@@ -8,15 +8,24 @@ export interface IUserinfo {
   nickname: string,
   user_pic: string,
   username: string
+  role:string
+  roles:string[]
 }
 
-let userinfo: IUserinfo = JSON.parse(getUserinfo() || '{}')
+let userinfo: IUserinfo = {
+  id: 0,
+  nickname: '',
+  user_pic: '',
+  username: '',
+  role:'',
+  roles:[]
+}
 export default function userinfoReducer(preState = userinfo, action: IAction<IUserinfo>) {
   const { type, data } = action
   switch (type) {
     case SET_USERINFO:
       userinfo = data
-      setUserinfo(userinfo)
+      // setUserinfo(userinfo)
       return data
     default:
       return preState

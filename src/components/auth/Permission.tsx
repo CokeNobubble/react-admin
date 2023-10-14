@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react'
-import { useLocation, useNavigate  } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getToken, getUserinfo } from '@/utils/auth';
-import { getUserinfoApi } from '@/server/user';
-import { useDispatch } from 'react-redux';
-import { SET_USERINFO } from '@/store/contant';
+import { getRoutesApi, getUserinfoApi } from '@/server/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_ROUTES, SET_USERINFO } from '@/store/contant';
+import { IUserinfo } from '@/store/reducers/userinfo';
+import { IState } from '@/interface';
+import {generateRouter} from '@/utils/routes';
+import { RouterBody } from '@/router';
+import {routes} from '@/router';
+
 /*
  采用高阶组件做路由守卫
  */
@@ -31,13 +37,35 @@ function ToHome() {
 function ToGetUserinfo() {
   const dispatch = useDispatch()
   const navigateTo = useNavigate()
+
+
   useEffect(() => {
     // 先请求用户信息
-    getUserinfoApi().then(res => {
-      console.log(res, 'user')
-      dispatch({ type: SET_USERINFO, data: res.data })
+    async function getUserinfo() {
+      return new Promise(async (resolve, reject) => {
+        const res = await getUserinfoApi()
+        dispatch({ type: SET_USERINFO, data: res.data })
+        resolve(res.data)
+      })
+    }
+
+    // 获取路由表信息
+
+    async function getDynamicRoute(data: IUserinfo) {
+      const res = await getRoutesApi({ role: data.roles[0] })
+      const asyncRoutes:RouterBody[] = generateRouter(res.data)
+      dispatch({type: SET_ROUTES, data: asyncRoutes})
+      asyncRoutes.forEach((route:RouterBody)=>{
+        routes.unshift(route)
+      })
+      console.log(routes,"🚀+++++++++++++++++")
       navigateTo(indexRoute)
+    }
+
+    getUserinfo().then((data) => {
+      getDynamicRoute(data as IUserinfo)
     })
+
   }, [])
   return <div></div>
 }
@@ -53,7 +81,12 @@ const AuthRoute: React.FC<RouteProps> = (props) => {
   if (hasToken) {
     // 如果有token 且在登录页直接跳转首页
     // 获取用户信息
-    const hasUserinfo = getUserinfo();
+    // const hasUserinfo = getUserinfo();
+
+    const userinfo: IUserinfo = useSelector(
+        (state: IState) => state.userinfoReducer
+    );
+    const hasUserinfo = userinfo.roles && userinfo.roles.length > 0 // 这里到时候根据返回的用户权限数组去判断
     if (!hasUserinfo) {
       return <ToGetUserinfo/>
     }

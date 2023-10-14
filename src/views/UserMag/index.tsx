@@ -22,7 +22,7 @@ interface Iid {
   id: number
 }
 
-const UserManage: FC = (): ReactElement => {
+const UserMag: FC = (): ReactElement => {
   const [tableData, setTableData] = useState<ITable[]>()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm()
@@ -290,4 +290,4 @@ const UserManage: FC = (): ReactElement => {
 }
 
 
-export default UserManage
+export default UserMag

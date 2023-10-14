@@ -18,3 +18,8 @@ export interface IAvatarData {
 export interface IRemoveData {
   id: number
 }
+
+
+export interface IRouteData {
+  role:string
+}

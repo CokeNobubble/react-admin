@@ -1,9 +1,11 @@
-import { IAction } from "@/interface";
-import { ADD_TAG, ClOSE_TAG, CLICK_TAG } from "../contant";
+import { IAction } from '@/interface';
+import { ADD_TAG, ClOSE_TAG, CLICK_TAG } from '../contant';
+
 export type ITag = {
   key: string;
   label: string;
   isClose: boolean;
+  path: string
 };
 
 export type ICrumbs = {
@@ -12,14 +14,13 @@ export type ICrumbs = {
 };
 
 let initState: ICrumbs = {
-  tags: [
-    {
-      key: "home",
-      label: "首页",
-      isClose: false,
-    },
-  ],
-  activeTag: { key: "home", label: "首页", isClose: false },
+  tags: [{
+    key: 'home',
+    label: '首页',
+    isClose: false,
+    path: '/home'
+  }],
+  activeTag: { key: 'home', label: '首页', isClose: false, path: '/home' },
 };
 export default (state = initState, action: IAction<ICrumbs>) => {
   const { type, data } = action;
