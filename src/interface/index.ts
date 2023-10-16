@@ -1,10 +1,11 @@
-import { IUser } from "@/store/reducers/user";
-import { IUserinfo } from "@/store/reducers/userinfo";
-import { ICrumbs } from "@/store/reducers/crumbs";
+import { IUser } from '@/store/reducers/user';
+import { IUserinfo } from '@/store/reducers/userinfo';
+import { ICrumbs } from '@/store/reducers/crumbs';
 import { IPermissionState } from '@/store/reducers/permission';
-export interface IApiRes {
+
+export interface IApiRes<T> {
   code: number;
-  data: null;
+  data: any | T;
   msg: string;
   success: boolean;
 }

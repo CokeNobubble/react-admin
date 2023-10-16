@@ -27,10 +27,11 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     (response: AxiosResponse) => {
       console.log(response, 'resp');
-      const { code, msg } = response.data as IApiRes;
+      const { code, msg } = response.data as IApiRes<any>;
       if (code !== 0) {
 
       } else {
+        console.log(response.data)
         return response.data;
       }
     },

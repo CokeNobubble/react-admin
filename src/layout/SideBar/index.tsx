@@ -12,7 +12,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 
 const { Sider } = Layout;
 export const MyIcon = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4285346_gi24w305qdg.js', // 在 iconfont.cn 上生成
+  scriptUrl: '//at.alicdn.com/t/c/font_4285346_j1acowic8cg.js', // 在 iconfont.cn 上生成
 })
 
 interface IProps {
@@ -25,7 +25,7 @@ export interface IRouteConfig {
   label: string;
   children?: IRouteConfig[];
   isClose?: boolean;
-  path: string;
+  path?: string;
 }
 
 interface MenuItem {
@@ -45,6 +45,7 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
     return path[path.length - 1]
   }, [location.pathname]);
   const menuList = useSelector((state: IState) => state.permission.menuList)
+
 
   /**
    * 处理Tag

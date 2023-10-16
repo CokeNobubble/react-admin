@@ -15,26 +15,28 @@ const BarGraph: FC<IProps> = ({
   className = "",
   title,
 }): ReactElement => {
-  let chart: echarts.ECharts;
 
   const handleResize = () => {
     const chartDom = document.getElementById(id);
-    chart = echarts.init(chartDom as HTMLElement);
+   const chart = echarts.init(chartDom as HTMLElement);
     chart.resize();
   };
 
   const { run } = useDebounceFn(handleResize, {
-    wait: 100,
+    wait: 200,
   });
 
   useEffect(() => {
     initChart();
     window.addEventListener("resize", run);
+    return () => {
+      window.removeEventListener('resize', run)
+    }
   }, [window.innerHeight, window.innerWidth]);
 
   const initChart = (): void => {
     const chartDom = document.getElementById(id);
-    chart = echarts.init(chartDom as HTMLElement);
+   const chart = echarts.init(chartDom as HTMLElement);
     const option: EChartsOption = {
       grid: {
         left: "2%",

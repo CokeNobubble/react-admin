@@ -23,7 +23,7 @@ function handleMenuList(data: RouterBody[]) {
     let menu: IRouteConfig = {
       key: item.path,
       label: item.meta?.title as string,
-      icon: <MyIcon type={ 'icon-' + item.meta?.icon }/>,
+      icon: <span className="c-rose"><MyIcon type={ 'icon-' + item.meta?.icon }/></span>,
     }
 
     if (item.children) {
