@@ -8,35 +8,36 @@ interface IProps {
   id: string;
   className?: string;
   title: string;
+  height: string;
 }
 
 const BarGraph: FC<IProps> = ({
   id = "barChart",
   className = "",
   title,
+  height,
 }): ReactElement => {
-
   const handleResize = () => {
     const chartDom = document.getElementById(id);
-   const chart = echarts.init(chartDom as HTMLElement);
+    const chart = echarts.init(chartDom as HTMLElement);
     chart.resize();
   };
 
   const { run } = useDebounceFn(handleResize, {
-    wait: 200,
+    wait: 0,
   });
 
   useEffect(() => {
     initChart();
     window.addEventListener("resize", run);
     return () => {
-      window.removeEventListener('resize', run)
-    }
+      window.removeEventListener("resize", run);
+    };
   }, [window.innerHeight, window.innerWidth]);
 
   const initChart = (): void => {
     const chartDom = document.getElementById(id);
-   const chart = echarts.init(chartDom as HTMLElement);
+    const chart = echarts.init(chartDom as HTMLElement);
     const option: EChartsOption = {
       grid: {
         left: "2%",
@@ -141,9 +142,13 @@ const BarGraph: FC<IProps> = ({
   };
 
   return (
-    <div className="shadow-xl p-20px flex-1 flex flex-col">
+    <div className="shadow-xl p-20px  w-500px flex flex-col">
       <h1>{title}</h1>
-      <div id={id} className={`${className} flex-1`}></div>
+      <div
+        style={{ height, width: "100%" }}
+        id={id}
+        className={`${className}`}
+      ></div>
     </div>
   );
 };

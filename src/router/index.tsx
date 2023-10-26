@@ -2,7 +2,7 @@
 // import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 // import React, { FC, lazy, ReactElement } from 'react';
 // import { Spin } from 'antd';
-import WebTitle from '@/components/WebTitle';
+import WebTitle from "@/components/WebTitle";
 // import { Suspense } from 'react';
 //
 // // 路由懒加载切换路由loading效果（必做的）
@@ -102,68 +102,66 @@ import WebTitle from '@/components/WebTitle';
 //
 // export default routes;
 
-
-import React, { Suspense, lazy } from 'react'
-import { Navigate, useRoutes } from 'react-router-dom';
-import { Spin } from 'antd';
+import React, { Suspense, lazy } from "react";
+import { Navigate, useRoutes } from "react-router-dom";
+import { Spin } from "antd";
 
 interface Meta {
-  title?: string
-  icon?: string | null
+  title?: string;
+  icon?: string | null;
 }
 
 export interface RouterBody {
-  name?: string,
-  path: string,
-  component?: any,
-  element?: any,
-  children?: Array<RouterBody>,
-  meta?: Meta
+  name?: string;
+  path: string;
+  component?: any;
+  element?: any;
+  children?: Array<RouterBody>;
+  meta?: Meta;
 }
-
 
 export const routes: Array<RouterBody> = [
   {
-    path: '/login',
-    name: 'login',
-    component: lazy(() => import('@/views/Login'))
+    path: "/login",
+    name: "login",
+    component: lazy(() => import("@/views/Login")),
   },
   //   {
   //   path: '/',
   //   component: <Navigate to="/home"></Navigate>,
   // },
   {
-    path: '*',
-    component: lazy(() => import('@/views/NotFound'))
-  }
-]
+    path: "*",
+    component: lazy(() => import("@/views/NotFound")),
+  },
+];
 
 // 路由处理方式
 const withLoadingComponent = (routers: Array<RouterBody>): any => {
-  return routers.map(item => {
+  return routers.map((item) => {
     if (item.children) {
-      item.children = withLoadingComponent(item.children)
+      item.children = withLoadingComponent(item.children);
     }
-    item.element =
-        <Suspense fallback={
+    item.element = (
+      <Suspense
+        fallback={
           <div className="wh-full f-c-c">
             <Spin tip="Loading" size="large">
-              <div className="content"/>
+              <div className="content" />
             </Spin>
           </div>
-        }>
-          {/* 把懒加载的异步路由变成组件装载进去 */ }
-          <item.component/>
-        </Suspense>
-    return item
-  })
-}
+        }
+      >
+        {/* 把懒加载的异步路由变成组件装载进去 */}
+        <item.component />
+      </Suspense>
+    );
+    return item;
+  });
+};
 
 // 必须这样子，不然会报什么hook错误的问题
 
-const Router = () => useRoutes(withLoadingComponent(routes))
+const Router = () => useRoutes(withLoadingComponent(routes));
 
-export default Router
-
-
-
+export default Router;

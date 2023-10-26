@@ -13,7 +13,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   return {
     plugins: [
       UnoCSS({
-        configFile:"./src/uno.config.ts",
+        configFile: "./src/uno.config.ts",
       }),
       react(),
       createSvgIconsPlugin({
@@ -42,5 +42,32 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       },
     },
     base: "/react/",
+    build: {
+      sourcemap: false,
+      minify: "terser",
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules")) {
+              return id.toString().split("node_modules/")[1].split("/")[0];
+            }
+          },
+          chunkFileNames: (chunkInfo) => {
+            const facadeModuleId = chunkInfo.facadeModuleId
+              ? chunkInfo.facadeModuleId.split("/")
+              : [];
+            const fileName =
+              facadeModuleId[facadeModuleId.length - 2] || "[name]";
+            return `js/${fileName}/[name].[hash].js`;
+          },
+        },
+      },
+    },
   };
 });

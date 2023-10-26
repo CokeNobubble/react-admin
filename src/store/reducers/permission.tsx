@@ -1,47 +1,48 @@
-import { SET_ROUTES } from '@/store/contant';
-import { RouterBody } from '@/router';
-import { MyIcon } from '@/layout/SideBar';
-import React from 'react';
-import { IRouteConfig } from '@/layout/SideBar';
+import { SET_ROUTES } from "@/store/contant";
+import { RouterBody } from "@/router";
+import { MyIcon } from "@/layout/SideBar";
+import { IRouteConfig } from "@/layout/SideBar";
 
 type IAction = {
-  type: string,
-  data: RouterBody[]
-}
-
+  type: string;
+  data: RouterBody[];
+};
 
 export type IPermissionState = {
-  menuList: IRouteConfig[]
-}
+  menuList: IRouteConfig[];
+};
 
 let initState: IPermissionState = {
-  menuList: []
-}
+  menuList: [],
+};
 
 function handleMenuList(data: RouterBody[]) {
   let menuList: IRouteConfig[] = data.map((item: RouterBody) => {
     let menu: IRouteConfig = {
       key: item.path,
       label: item.meta?.title as string,
-      icon: <span className="c-rose"><MyIcon type={ 'icon-' + item.meta?.icon }/></span>,
-    }
+      icon: (
+        <span className="c-rose">
+          <MyIcon type={"icon-" + item.meta?.icon} />
+        </span>
+      ),
+    };
 
     if (item.children) {
-      menu.children = handleMenuList(item.children)
+      menu.children = handleMenuList(item.children);
     }
-    return menu
-  })
-  return menuList
+    return menu;
+  });
+  return menuList;
 }
 
 export default (state = initState, action: IAction) => {
-  const { type, data } = action
+  const { type, data } = action;
   switch (type) {
     case SET_ROUTES:
-      const menuList = handleMenuList(data[0].children as RouterBody[])
-      return { ...state, menuList }
+      const menuList = handleMenuList(data[0].children as RouterBody[]);
+      return { ...state, menuList };
     default:
-      return state
+      return state;
   }
-}
-
+};

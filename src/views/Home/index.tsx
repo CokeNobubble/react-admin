@@ -1,4 +1,4 @@
-import { FC, ReactElement, useEffect, useMemo } from 'react';
+import { FC, ReactElement, useEffect, useMemo } from "react";
 import { Avatar, Col, Row } from "antd";
 import { useSelector } from "react-redux";
 import { IState } from "@/interface";
@@ -33,9 +33,9 @@ const Home: FC = (): ReactElement => {
     return `http://localhost:3005/${userinfo.user_pic}`;
   }, [userinfo.user_pic]);
 
-  useEffect(()=>{
-    document.title = "首页"
-  })
+  useEffect(() => {
+    document.title = "首页";
+  });
 
   return (
     <div className="flex gap-30px flex-col h-full  w-full">
@@ -57,11 +57,21 @@ const Home: FC = (): ReactElement => {
         <SmallCard count={9999} svgSrc={money} title="收入金额" />
         <SmallCard count={9999} svgSrc={older} title="订单数" />
       </Row>
-      <div className="flex justify-between gap-20px flex-1">
-        <BarGraph title="柱状图" id="BarGraph"></BarGraph>
-        <PieGraph title="饼图" id="PieGraph"></PieGraph>
-        <RadarGraph title="雷达图" id="RadarGraph"></RadarGraph>
-      </div>
+      <Row className="flex flex-1" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Col>
+          <BarGraph height="400px" title="柱状图" id="BarGraph"></BarGraph>
+        </Col>
+        <Col>
+          <PieGraph height="400px" title="饼图" id="PieGraph"></PieGraph>
+        </Col>
+        <Col>
+          <RadarGraph
+            height="400px"
+            title="雷达图"
+            id="RadarGraph"
+          ></RadarGraph>
+        </Col>
+      </Row>
     </div>
   );
 };

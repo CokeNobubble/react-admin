@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { useRoutes } from "react-router-dom";
 // import routes from "@/router";
 
-import Router from '@/router';
+import Router from "@/router";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { useSelector } from "react-redux";

@@ -1,19 +1,19 @@
-import React, { FC, ReactElement, useMemo } from 'react';
-import { Layout, Menu } from 'antd';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ReactSVG } from 'react-svg';
-import sideBar from './index.module.css';
-import reactIcon from '@/assets/icons/react.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { ADD_TAG } from '@/store/contant';
-import { IState } from '@/interface';
-import { ITag } from '@/store/reducers/crumbs';
-import { createFromIconfontCN } from '@ant-design/icons';
+import React, { FC, ReactElement, useEffect, useMemo } from "react";
+import { Layout, Menu } from "antd";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ReactSVG } from "react-svg";
+import sideBar from "./index.module.css";
+import reactIcon from "@/assets/icons/react.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_TAG } from "@/store/contant";
+import { IState } from "@/interface";
+import { ITag } from "@/store/reducers/crumbs";
+import { createFromIconfontCN } from "@ant-design/icons";
 
 const { Sider } = Layout;
 export const MyIcon = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4285346_j1acowic8cg.js', // 在 iconfont.cn 上生成
-})
+  scriptUrl: "//at.alicdn.com/t/c/font_4287455_ogpr51szo7b.js", // 在 iconfont.cn 上生成
+});
 
 interface IProps {
   collapsed: boolean;
@@ -33,7 +33,6 @@ interface MenuItem {
   keyPath: string[];
 }
 
-
 const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
@@ -41,11 +40,11 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
   const tags = useSelector((state: IState) => state.crumbs.tags);
   const activeTag = useSelector((state: IState) => state.crumbs.activeTag);
   const currentPath = useMemo(() => {
-    const path = location.pathname.split('/')
-    return path[path.length - 1]
+    const path = location.pathname.split("/");
+    return path[path.length - 1];
   }, [location.pathname]);
-  const menuList = useSelector((state: IState) => state.permission.menuList)
-
+  const menuList = useSelector((state: IState) => state.permission.menuList);
+  console.log(menuList, "menuList");
 
   /**
    * 处理Tag
@@ -53,7 +52,7 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
    * @param path  跳转路径
    */
   const patchTag = (tag: ITag, path: string): void => {
-    document.title = tag.label
+    document.title = tag.label;
     if (tag) {
       tag.isClose = true;
       tag.path = path;
@@ -83,19 +82,19 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
   };
 
   const handleMulMenu = (
-      key: string,
-      keyPath: string[],
-      routes: IRouteConfig[]
+    key: string,
+    keyPath: string[],
+    routes: IRouteConfig[]
   ): void => {
-    const paths = JSON.parse(JSON.stringify(keyPath))
+    const paths = JSON.parse(JSON.stringify(keyPath));
     paths.reverse();
-    const path = '/' + paths.join('/')
+    const path = "/" + paths.join("/");
     const kp = keyPath;
     const tag = routes.find(
-        (item: IRouteConfig) => item.key === keyPath[kp.length - 1]
+      (item: IRouteConfig) => item.key === keyPath[kp.length - 1]
     );
     const findTag =
-        tag?.children && tag?.children.find((item) => item.key === key);
+      tag?.children && tag?.children.find((item) => item.key === key);
     if (!findTag) {
       // 如果不在这一层 继续递归查找
       kp.pop();
@@ -107,24 +106,29 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
   };
 
   return (
-      <Sider trigger={ null } collapsible collapsed={ collapsed }>
-        <div
-            className={ collapsed ? 'p-20px text-center' : 'flex bg-#000 p-20px justify-between' }>
-          <ReactSVG src={ reactIcon } className={ sideBar.wrapper }></ReactSVG>
-          { collapsed ? (
-              ''
-          ) : (
-              <h1 className="c-#fff text-14px">React-Antd-Admin</h1>
-          ) }
-        </div>
-        <Menu
-            theme="dark"
-            mode="inline"
-            selectedKeys={ [currentPath] }
-            onClick={ clickMenuItem }
-            items={ menuList }
-        />
-      </Sider>
+    <Sider trigger={null} collapsible collapsed={collapsed}>
+      <div
+        className={
+          collapsed
+            ? "p-20px text-center"
+            : "flex bg-#000 p-20px justify-between"
+        }
+      >
+        <ReactSVG src={reactIcon} className={sideBar.wrapper}></ReactSVG>
+        {collapsed ? (
+          ""
+        ) : (
+          <h1 className="c-#fff text-14px">React-Antd-Admin</h1>
+        )}
+      </div>
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[currentPath]}
+        onClick={clickMenuItem}
+        items={menuList}
+      />
+    </Sider>
   );
 };
 

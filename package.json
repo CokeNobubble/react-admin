@@ -12,6 +12,7 @@
     "@ant-design/icons": "^5.2.5",
     "ahooks": "^3.7.8",
     "antd": "^5.6.3",
+    "autofit.js": "^3.0.4",
     "axios": "^1.4.0",
     "echarts": "^5.4.2",
     "react": "^18.2.0",
@@ -23,7 +24,8 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
-    "sass": "^1.66.1"
+    "sass": "^1.66.1",
+    "terser": "^5.22.0"
   },
   "devDependencies": {
     "@rollup/plugin-dynamic-import-vars": "^2.0.6",
