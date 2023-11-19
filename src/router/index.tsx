@@ -130,10 +130,10 @@ export const routes: Array<RouterBody> = [
   //   path: '/',
   //   component: <Navigate to="/home"></Navigate>,
   // },
-  {
-    path: "*",
-    component: lazy(() => import("@/views/NotFound")),
-  },
+  // {
+  //   path: "*",
+  //   component: lazy(() => import("@/views/NotFound")),
+  // },
 ];
 
 // 路由处理方式

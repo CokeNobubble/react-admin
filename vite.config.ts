@@ -41,7 +41,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
       },
     },
-    base: "/react/",
+    // base: "/react/",
     build: {
       sourcemap: false,
       minify: "terser",

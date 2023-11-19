@@ -1,11 +1,6 @@
-import React, { FC, ReactElement } from 'react';
-
+import { FC, ReactElement } from "react";
 const Index: FC = (): ReactElement => {
-  return (
-      <div>
-        个人信息
-      </div>
-  )
-}
+  return <div>个人</div>;
+};
 
-export default Index
+export default Index;

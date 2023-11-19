@@ -23,12 +23,21 @@ import { IPage } from "@/interface";
 import { removeUserApi } from "@/server/user";
 import type { PaginationProps } from "antd";
 
+type IDept = {
+  name: string;
+  id: number;
+  pid: number;
+};
+
 interface ITable {
   username: string;
   nickname: string;
   sex: string;
   phone: string;
   id: number;
+  rt_DeptMag: IDept;
+  desc: string;
+  createTime: string;
 }
 
 interface Iid {
@@ -70,6 +79,12 @@ const UserMag: FC = (): ReactElement => {
       title: "手机号",
       key: "phone",
       dataIndex: "phone",
+    },
+    {
+      title: "部门",
+      key: "rt_DeptMag",
+      dataIndex: "rt_DeptMag",
+      render: (_, record) => <span>{record.rt_DeptMag?.name}</span>,
     },
     {
       title: "描述",
