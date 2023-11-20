@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import { ColorPicker, Switch, theme } from "antd";
 import { Button, Divider, Drawer } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,17 +51,19 @@ const MyDrawer: FC = (): ReactElement => {
   return (
     <div>
       <Button
-        className={`z-9999 fixed top-200px duration-300 ${btnPosition}`}
+        className={`z-9999 fixed top-200px  ${btnPosition}`}
         type="primary"
-        icon={open ? <CloseOutlined /> : <SettingOutlined />}
+        icon={
+          open ? <CloseOutlined rev="true" /> : <SettingOutlined rev="true" />
+        }
         onClick={showDrawer}
       />
       <Drawer title="全局配置" placement="right" onClose={onClose} open={open}>
         <div className="flex items-center justify-between">
           <h4>主题切换</h4>
           <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
+            checkedChildren={<CheckOutlined rev="true" />}
+            unCheckedChildren={<CloseOutlined rev="true" />}
             onChange={toggleThemeMode}
             defaultChecked
           />

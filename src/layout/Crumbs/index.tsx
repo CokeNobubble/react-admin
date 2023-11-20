@@ -51,7 +51,7 @@ const Crumbs: FC = (): ReactElement => {
                     e.stopPropagation();
                     handleCloseTag(item);
                   }}
-                  rev={true}
+                  rev="true"
                 />
               ) : null}
             </Button>

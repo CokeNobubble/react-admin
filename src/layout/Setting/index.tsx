@@ -1,12 +1,17 @@
-import { FC, ReactElement } from "react";
-import { ColorPicker, Switch, theme } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { SET_THEME_COLOR, SET_THEME_MODE } from "@/store/contant";
 import type { Color } from "antd/es/color-picker";
 import { IState } from "@/interface";
 
-const Setting: FC = (): ReactElement => {
+import { ReactElement, FC } from "react";
+import { Switch, Divider, ColorPicker, theme } from "antd";
+
+type Props = {
+  title: String;
+};
+
+const Setting: FC<Props> = ({ title }): ReactElement => {
   const dispatch = useDispatch();
   const color = useSelector((state: IState) => state.theme.themeColor);
 
@@ -18,22 +23,35 @@ const Setting: FC = (): ReactElement => {
   const toggleThemeMode = (val: boolean) => {
     if (val) {
       dispatch({ type: SET_THEME_MODE, data: theme.defaultAlgorithm });
+      // document.documentElement.style.color = ""
       document.documentElement.style.color = "#333";
     } else {
       dispatch({ type: SET_THEME_MODE, data: theme.darkAlgorithm });
       document.documentElement.style.color = "#fff";
     }
   };
-
   return (
-    <div className="flex items-center gap-20px">
-      <Switch
-        checkedChildren={<CheckOutlined />}
-        unCheckedChildren={<CloseOutlined />}
-        onChange={toggleThemeMode}
-        defaultChecked
-      />
-      <ColorPicker value={color} onChange={changeThemeColor} />
+    <div>
+      <div className="border-#eee b-b-1px flex items-center p-x-20px p-y-8px">
+        <CloseOutlined onClick={() => {}} rev="true" />
+        <h3 className="ml-8px">{title}</h3>
+      </div>
+      <div className="p-20px">
+        <div className="flex items-center justify-between">
+          <h4>主题切换</h4>
+          <Switch
+            checkedChildren={<CheckOutlined rev="true" />}
+            unCheckedChildren={<CloseOutlined rev="true" />}
+            onChange={toggleThemeMode}
+            defaultChecked
+          />
+        </div>
+        <Divider />
+        <div className="flex items-center justify-between">
+          <h4>主题颜色</h4>
+          <ColorPicker value={color} onChange={changeThemeColor} />
+        </div>
+      </div>
     </div>
   );
 };

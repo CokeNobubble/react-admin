@@ -103,7 +103,13 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
       <div className="flex gap-10px">
         <Button
           type="text"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          icon={
+            collapsed ? (
+              <MenuUnfoldOutlined rev="true" />
+            ) : (
+              <MenuFoldOutlined rev="true" />
+            )
+          }
           onClick={() => setCollapsed(!collapsed)}
           style={{
             fontSize: "16px",
@@ -124,7 +130,7 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
         <Dropdown menu={{ items }} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              <DownOutlined />
+              <DownOutlined rev="true" />
             </Space>
           </a>
         </Dropdown>
