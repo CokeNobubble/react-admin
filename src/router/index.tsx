@@ -126,10 +126,10 @@ export const routes: Array<RouterBody> = [
     name: "login",
     component: lazy(() => import("@/views/Login")),
   },
-  //   {
-  //   path: '/',
-  //   component: <Navigate to="/home"></Navigate>,
-  // },
+  {
+    path: '/home',
+    component: lazy(() => import("@/views/Home")),
+  },
   {
     path: "*",
     component: lazy(() => import("@/views/NotFound")),

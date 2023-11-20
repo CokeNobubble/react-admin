@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useMemo } from "react";
+import { FC, ReactElement, useMemo } from "react";
 import { Button, Layout, theme, Avatar, message, Upload } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { getUserinfoApi } from "@/server/user";
@@ -15,13 +15,14 @@ import { Dropdown, Space } from "antd";
 import style from "./index.module.scss";
 import Crumbs from "../Crumbs";
 import { RcFile } from "antd/es/upload";
-
-const { Header } = Layout;
+import { isImage } from "@/utils/toolFunc";
 
 interface Props {
   setCollapsed: Function;
   collapsed: boolean;
 }
+
+const { Header } = Layout;
 
 const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
   const {
@@ -40,13 +41,10 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
       authorization: `Bearer ${getToken()}`,
     },
     beforeUpload: (file: RcFile) => {
-      console.log(file);
-      const isPNG: boolean = file.type === "image/png";
-      console.log(isPNG);
-      if (!isPNG) {
+      if (!isImage(file)) {
         message.error(`请选择图片格式文件`);
       }
-      return isPNG || Upload.LIST_IGNORE;
+      return isImage(file) || Upload.LIST_IGNORE;
     },
     async onChange(info) {
       if (info.file.status !== "uploading") {

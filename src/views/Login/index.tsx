@@ -60,11 +60,11 @@ const Index: FC = (): ReactElement => {
     divRef!.current!.innerHTML = res.data;
   };
 
-  const {handleImage} = useImage()
+  const { handleImage } = useImage()
   const bg = handleImage('bg.jpg')
 
   return (
-    <div style={{backgroundImage: 'url('+bg+')'}}  className="wh-full flex justify-center items-center bg-cover">
+    <div style={{ backgroundImage: 'url(' + bg + ')' }} className="wh-full flex justify-center items-center bg-cover">
       <div className="w400px h400px b-rd-30px flex justify-center flex-col items-center bg-#fff">
         <div className="w100% text-right mb-10px">
           <Button

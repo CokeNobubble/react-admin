@@ -1,7 +1,6 @@
 import {
   FC,
   ReactElement,
-  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -37,9 +36,7 @@ export const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_4285346_5v3p9vvzs1c.js",
 });
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
+
 
 type FieldType = {
   path: string;
@@ -152,6 +149,12 @@ const RouteMag: FC = (): ReactElement => {
       ),
     },
   ];
+
+
+  const onFinishFailed = (errorInfo: any) => {
+    setModalVisible(true);
+    console.log("Failed:", errorInfo);
+  };
 
   const getMenu = async () => {
     const res = await getMenuApi();
@@ -305,7 +308,7 @@ const RouteMag: FC = (): ReactElement => {
     try {
       await removeRouteApi({ id: record.id });
       getAllRoutes();
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const modalSlot = useMemo(() => {
