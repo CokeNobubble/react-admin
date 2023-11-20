@@ -32,7 +32,7 @@ const Crumbs: FC = (): ReactElement => {
   };
 
   return (
-    <div className="bg-#fff p-5px b-1px border-#d9d9d9">
+    <div className="bg-#fff p-5px b-1px border-#eee ">
       <div className="flex w100% gap-6px">
         {tags.map((item: ITag) => {
           return (

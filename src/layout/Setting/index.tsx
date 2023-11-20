@@ -9,9 +9,10 @@ import { Switch, Divider, ColorPicker, theme } from "antd";
 
 type Props = {
   title: String;
+  onClose:Function
 };
 
-const Setting: FC<Props> = ({ title }): ReactElement => {
+const Setting: FC<Props> = ({ title,onClose }): ReactElement => {
   const dispatch = useDispatch();
   const color = useSelector((state: IState) => state.theme.themeColor);
 
@@ -23,17 +24,19 @@ const Setting: FC<Props> = ({ title }): ReactElement => {
   const toggleThemeMode = (val: boolean) => {
     if (val) {
       dispatch({ type: SET_THEME_MODE, data: theme.defaultAlgorithm });
-      // document.documentElement.style.color = ""
-      document.documentElement.style.color = "#333";
+      // document.documentElement.style.color = "var(--light-font-color)";
+      document.documentElement.className = "light";
     } else {
       dispatch({ type: SET_THEME_MODE, data: theme.darkAlgorithm });
-      document.documentElement.style.color = "#fff";
+      document.documentElement.className = "dark";
+      // document.documentElement.style.color = "var(--light-font-color)";
+      // document.documentElement.style.color = "#fff";
     }
   };
   return (
     <div>
       <div className="border-#eee b-b-1px flex items-center p-x-20px p-y-8px">
-        <CloseOutlined onClick={() => {}} rev="true" />
+        <CloseOutlined onClick={() => onClose()} rev="true" />
         <h3 className="ml-8px">{title}</h3>
       </div>
       <div className="p-20px">

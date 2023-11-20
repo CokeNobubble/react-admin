@@ -1,5 +1,5 @@
 import {
-  FC,
+  FC, forwardRef,
   ReactElement,
   ReactNode,
   useEffect,
@@ -14,18 +14,16 @@ type Props = {
   top: String;
 };
 
-const RightPanel: FC<Props> = ({ slot, top = "200" }): ReactElement => {
+const RightPanel: FC<Props> = forwardRef(({ slot, top = "200" },ref): ReactElement => {
   const [show, setShow] = useState(false);
   const rightPanel = useRef<HTMLDivElement | null>(null);
   const [panelPos, setPanelPos] = useState("right--300px");
   function insertBody() {
-    const body = document.querySelector("#app");
-    console.log(rightPanel, "rightPanel");
-    body?.appendChild(rightPanel.current as HTMLDivElement);
+    const app = document.querySelector("#app");
+    app?.appendChild(rightPanel.current as HTMLDivElement);
   }
 
   const togglePanel = () => {
-    console.log(123);
     if (show) {
       setPanelPos("right--300px");
     } else {
@@ -57,6 +55,7 @@ const RightPanel: FC<Props> = ({ slot, top = "200" }): ReactElement => {
         <Button
           onClick={togglePanel}
           className={`absolute z-999 left--32px top-${top}px`}
+          ref={ref}
           type="primary"
           icon={
             show ? <CloseOutlined rev="true" /> : <SettingOutlined rev="true" />
@@ -66,6 +65,6 @@ const RightPanel: FC<Props> = ({ slot, top = "200" }): ReactElement => {
       </div>
     </div>
   );
-};
+})
 
 export default RightPanel;
