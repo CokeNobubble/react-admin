@@ -5,7 +5,6 @@ import { getUserinfoApi } from "@/server/user";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "@/interface";
 import { SET_USERINFO } from "@/store/contant";
-import Setting from "@/layout/Setting";
 import { useNavigate } from "react-router-dom";
 import type { UploadProps } from "antd";
 import { getToken } from "@/utils/auth";
@@ -112,7 +111,7 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
             height: 64,
           }}
         />
-        <Crumbs></Crumbs>
+        {/* <Crumbs></Crumbs> */}
       </div>
       <div className="flex items-center gap-20px">
         {/*<Setting></Setting>*/}

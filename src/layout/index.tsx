@@ -5,6 +5,7 @@ import SideBar from "@/layout/SideBar";
 import Header from "@/layout/Header";
 import MyContent from "@/layout/Content";
 import MyDrawer from "@/layout/MyDrawer";
+import Crumbs from "./Crumbs";
 
 const MyLayout: FC = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);
@@ -18,6 +19,7 @@ const MyLayout: FC = (): ReactElement => {
       <SideBar collapsed={collapsed} />
       <Layout>
         <Header setCollapsed={setCollapsed} collapsed={collapsed} />
+        <Crumbs></Crumbs>
         <MyContent />
       </Layout>
       <MyDrawer />

@@ -1,10 +1,11 @@
-import React, { FC, ReactElement } from 'react';
-import { Tag } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { IState } from '@/interface';
-import { ITag } from '@/store/reducers/crumbs';
-import { CLICK_TAG, ClOSE_TAG } from '@/store/contant';
-import { useNavigate } from 'react-router-dom';
+import React, { FC, ReactElement } from "react";
+import { Button, Tag } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { IState } from "@/interface";
+import { ITag } from "@/store/reducers/crumbs";
+import { CLICK_TAG, ClOSE_TAG } from "@/store/contant";
+import { useNavigate } from "react-router-dom";
+import { CloseOutlined } from "@ant-design/icons";
 
 const Crumbs: FC = (): ReactElement => {
   const dispatch = useDispatch();
@@ -31,26 +32,33 @@ const Crumbs: FC = (): ReactElement => {
   };
 
   return (
-      <div>
-        { tags.map((item: ITag) => {
+    <div className="bg-#fff p-5px b-1px border-#d9d9d9">
+      <div className="flex w100% gap-6px">
+        {tags.map((item: ITag) => {
           return (
-              <Tag
-                  style={ { cursor: 'pointer', fontSize: '14px' } }
-                  onClick={ () => handleClickTag(item) }
-                  onClose={ (e) => {
-                    e.preventDefault();
+            <Button
+              className="border-1px border-#d9d9d9 pr-5px pl-5px flex items-center"
+              type={item.key === activeTag.key ? "primary" : "default"}
+              style={{ cursor: "pointer", fontSize: "12px" }}
+              key={item.label}
+              size="small"
+              onClick={() => handleClickTag(item)}
+            >
+              <span>{item.label}</span>
+              {item.isClose ? (
+                <CloseOutlined
+                  onClick={(e) => {
+                    e.stopPropagation();
                     handleCloseTag(item);
-                  } }
-                  closable={ item.isClose }
-                  key={ item.label }
-                  color={ item.key === activeTag.key ? '#2db7f5' : 'processing' }
-              >
-                { item.label }
-                { item.isClose }
-              </Tag>
+                  }}
+                  rev={true}
+                />
+              ) : null}
+            </Button>
           );
-        }) }
+        })}
       </div>
+    </div>
   );
 };
 
