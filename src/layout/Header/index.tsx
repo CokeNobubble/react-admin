@@ -115,7 +115,7 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
         <Crumbs></Crumbs>
       </div>
       <div className="flex items-center gap-20px">
-        <Setting></Setting>
+        {/*<Setting></Setting>*/}
         <Avatar
           className="cursor-pointer"
           shape="square"

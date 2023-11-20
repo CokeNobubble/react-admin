@@ -52,6 +52,8 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
    * @param path  跳转路径
    */
   const patchTag = (tag: ITag, path: string): void => {
+    console.log(path, "pth");
+    localStorage.setItem("currentPath", path);
     document.title = tag.label;
     if (tag) {
       tag.isClose = true;

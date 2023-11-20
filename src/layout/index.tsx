@@ -4,6 +4,7 @@ import { Layout } from "antd";
 import SideBar from "@/layout/SideBar";
 import Header from "@/layout/Header";
 import MyContent from "@/layout/Content";
+import MyDrawer from "@/layout/MyDrawer";
 
 const MyLayout: FC = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);
@@ -19,6 +20,7 @@ const MyLayout: FC = (): ReactElement => {
         <Header setCollapsed={setCollapsed} collapsed={collapsed} />
         <MyContent />
       </Layout>
+      <MyDrawer />
     </Layout>
   );
 };

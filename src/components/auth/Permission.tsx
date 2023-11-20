@@ -56,9 +56,10 @@ function ToGetUserinfo() {
     dispatch({ type: SET_ROUTES, data: asyncRoutes });
     asyncRoutes.forEach((route: RouterBody) => {
       routes.unshift(route);
+      navigateTo(location.pathname);
     });
-    console.log(location.pathname, "🚀");
-    navigateTo(location.pathname);
+
+    // console.log(location.pathname, "location.pathname");
   }
 
   useEffect(() => {
@@ -66,6 +67,18 @@ function ToGetUserinfo() {
       getDynamicRoute(data as IUserinfo);
     });
   }, []);
+  return <div></div>;
+}
+
+function CurrentRoute() {
+  const location = useLocation();
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    console.log(location.pathname, "location.pathname");
+    navigateTo(location.pathname);
+  });
+
   return <div></div>;
 }
 

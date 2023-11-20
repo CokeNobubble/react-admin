@@ -12,15 +12,12 @@ import {
 
 export default defineConfig({
   shortcuts: [
-      ['wh-full','h-full w-full'],
-      ['f-c-c','flex justify-center items-center']
+    ['wh-full', 'h-full w-full'],
+    ['f-c-c', 'flex justify-center items-center'],
   ],
   theme: {
-    colors: {
-      // ...
-    },
-    backgroundImage: {
-    }
+    colors: {},
+    backgroundImage: {}
   },
   presets: [
     presetUno(),
