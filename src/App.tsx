@@ -2,7 +2,7 @@ import { FC } from "react";
 // import routes from "@/router";
 
 import Router from "@/router";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { useSelector } from "react-redux";
 import { IState } from "@/interface";
@@ -15,7 +15,10 @@ const App: FC = () => {
   const { themeMode } = useSelector((state: IState) => state.themeMode);
   return (
     <ConfigProvider
-      theme={{ token: { colorPrimary: themeColor }, algorithm: themeMode }}
+      theme={{
+        token: { colorPrimary: themeColor },
+        algorithm: themeMode,
+      }}
       locale={zhCN}
     >
       {/*{element}*/}

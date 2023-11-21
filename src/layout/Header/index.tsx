@@ -97,7 +97,7 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
 
   return (
     <Header
-      className="flex items-center justify-between pr-20px pl-0"
+      className="flex items-center justify-between pr-20px pl-0 h-50px"
       style={{ background: colorBgContainer }}
     >
       <div className="flex gap-10px">
@@ -125,7 +125,7 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
           className="cursor-pointer"
           shape="square"
           src={url}
-          size={55}
+          size={40}
         ></Avatar>
         <Dropdown menu={{ items }} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>

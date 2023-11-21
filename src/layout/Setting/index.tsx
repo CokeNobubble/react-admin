@@ -6,13 +6,16 @@ import { IState } from "@/interface";
 
 import { ReactElement, FC } from "react";
 import { Switch, Divider, ColorPicker, theme } from "antd";
+import { ReactSVG } from "react-svg";
+import sun from "@/assets/icons/sun.svg";
+import moon from "@/assets/icons/moon.svg";
 
 type Props = {
   title: String;
-  onClose:Function
+  onClose: Function;
 };
 
-const Setting: FC<Props> = ({ title,onClose }): ReactElement => {
+const Setting: FC<Props> = ({ title, onClose }): ReactElement => {
   const dispatch = useDispatch();
   const color = useSelector((state: IState) => state.theme.themeColor);
 
@@ -24,13 +27,10 @@ const Setting: FC<Props> = ({ title,onClose }): ReactElement => {
   const toggleThemeMode = (val: boolean) => {
     if (val) {
       dispatch({ type: SET_THEME_MODE, data: theme.defaultAlgorithm });
-      // document.documentElement.style.color = "var(--light-font-color)";
-      document.documentElement.className = "light";
+      document.documentElement.classList.remove("dark");
     } else {
       dispatch({ type: SET_THEME_MODE, data: theme.darkAlgorithm });
       document.documentElement.className = "dark";
-      // document.documentElement.style.color = "var(--light-font-color)";
-      // document.documentElement.style.color = "#fff";
     }
   };
   return (
@@ -43,8 +43,28 @@ const Setting: FC<Props> = ({ title,onClose }): ReactElement => {
         <div className="flex items-center justify-between">
           <h4>主题切换</h4>
           <Switch
-            checkedChildren={<CheckOutlined rev="true" />}
-            unCheckedChildren={<CloseOutlined rev="true" />}
+            checkedChildren={
+              <ReactSVG
+                src={sun}
+                beforeInjection={(svg) => {
+                  svg.setAttribute(
+                    "style",
+                    "width: 16px; height: 16px;margin-top:3px"
+                  );
+                }}
+              ></ReactSVG>
+            }
+            unCheckedChildren={
+              <ReactSVG
+                src={moon}
+                beforeInjection={(svg) => {
+                  svg.setAttribute(
+                    "style",
+                    "width: 16px; height: 16px;margin-top:2px"
+                  );
+                }}
+              ></ReactSVG>
+            }
             onChange={toggleThemeMode}
             defaultChecked
           />

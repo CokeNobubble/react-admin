@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "@/store";
 // 引入uno.css
 import "uno.css";
+
 import AuthRoute from "@/components/auth/Permission";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

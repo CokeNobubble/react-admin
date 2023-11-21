@@ -38,7 +38,7 @@ const Home: FC = (): ReactElement => {
   });
 
   return (
-    <div className="flex gap-30px flex-col h-full  w-full">
+    <div className="c-[var(--text-color)] flex gap-30px flex-col h-full  w-full">
       <Row>
         <Col span={24}>
           <div className="shadow-xl p-20px flex items-center rounded-lg justify-between">

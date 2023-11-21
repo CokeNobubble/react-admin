@@ -32,18 +32,24 @@ const Crumbs: FC = (): ReactElement => {
   };
 
   return (
-    <div className="bg-#fff p-5px b-1px border-#eee ">
+    <div className="bg-[var(--bg-color)] p-5px border-[var(--border-color)] border-1px">
       <div className="flex w100% gap-6px">
         {tags.map((item: ITag) => {
           return (
             <Button
-              className="border-1px border-#d9d9d9 pr-5px pl-5px flex items-center"
+              className="pr-5px pl-5px flex items-center"
               type={item.key === activeTag.key ? "primary" : "default"}
               style={{ cursor: "pointer", fontSize: "12px" }}
               key={item.label}
-              size="small"
+              size="middle"
               onClick={() => handleClickTag(item)}
             >
+              <span
+                style={{
+                  display: item.key === activeTag.key ? "block" : "none",
+                }}
+                className="bg-#fff w8px h8px rounded-full mr-4px"
+              ></span>
               <span>{item.label}</span>
               {item.isClose ? (
                 <CloseOutlined
