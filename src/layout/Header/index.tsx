@@ -12,9 +12,9 @@ import { DownOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import style from "./index.module.scss";
-import Crumbs from "../Crumbs";
 import { RcFile } from "antd/es/upload";
 import { isImage } from "@/utils/toolFunc";
+import FullScreen from "@/components/FullScreen";
 
 interface Props {
   setCollapsed: Function;
@@ -121,6 +121,7 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
       </div>
       <div className="flex items-center gap-20px">
         {/*<Setting></Setting>*/}
+        <FullScreen></FullScreen>
         <Avatar
           className="cursor-pointer"
           shape="square"

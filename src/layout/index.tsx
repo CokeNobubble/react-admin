@@ -39,7 +39,6 @@ const MyLayout: FC = (): ReactElement => {
       </Layout>
       <RightPanel
         ref={rightPanelRef}
-        top="200"
         slot={<Setting onClose={onClose} title="全局设置" />}
       />
     </Layout>
