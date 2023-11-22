@@ -1,16 +1,12 @@
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
-import { SET_USERINFO, LOGIN } from "@/store/contant";
+import { LOGIN } from "@/store/contant";
 import { Login_Reg_Data } from "@/server/user/type";
-import {
-  getCaptchaApi,
-  getUserinfoApi,
-  loginApi,
-  registerApi,
-} from "@/server/user";
+import { getCaptchaApi, loginApi, registerApi } from "@/server/user";
 import { useNavigate } from "react-router-dom";
 import { useImage } from "@/hooks/useImage";
+import SwitchMode from "@/components/SwitchMode";
 
 const Index: FC = (): ReactElement => {
   const dispatch = useDispatch();
@@ -66,9 +62,12 @@ const Index: FC = (): ReactElement => {
   return (
     <div
       style={{ backgroundImage: "url(" + bg + ")" }}
-      className="wh-full flex justify-center items-center bg-cover"
+      className="wh-full flex justify-center items-center bg-cover relative"
     >
-      <div className="w400px h400px b-rd-30px flex justify-center flex-col items-center bg-#fff">
+      <div className="absolute top-10px right-10px">
+        <SwitchMode />
+      </div>
+      <div className="w400px h400px b-rd-30px flex justify-center flex-col items-center shadow-[var(--box-shadow-base)] bg-[var(--bg-color)]">
         <div className="w100% text-right mb-10px">
           <Button
             onClick={() => setFlag((flag) => !flag)}
@@ -79,6 +78,7 @@ const Index: FC = (): ReactElement => {
           </Button>
         </div>
         <Form
+          className="c-[var(--text-color)]"
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}

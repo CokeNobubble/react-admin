@@ -24,9 +24,9 @@ interface Props {
 const { Header } = Layout;
 
 const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  // const {
+  //   token: { colorBgContainer },
+  // } = theme.useToken();
   const user_pic = useSelector(
     (state: IState) => state.userinfoReducer.user_pic
   );
@@ -52,7 +52,6 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
       if (info.file.status === "done") {
         message.success(`上传成功`);
         const res = await getUserinfoApi();
-        console.log(res, "🚀");
         dispatch({ type: SET_USERINFO, data: res.data });
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -96,12 +95,10 @@ const MyHeader: FC<Props> = ({ setCollapsed, collapsed }): ReactElement => {
   }, [user_pic]);
 
   return (
-    <Header
-      className="flex items-center justify-between pr-20px pl-0 h-50px"
-      style={{ background: colorBgContainer }}
-    >
+    <Header className="flex items-center justify-between pr-20px pl-0 h-50px bg-[var(--bg-color)]">
       <div className="flex gap-10px">
         <Button
+          className="c-[var(--text-color)]"
           type="text"
           icon={
             collapsed ? (

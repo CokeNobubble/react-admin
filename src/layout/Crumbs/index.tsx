@@ -41,7 +41,7 @@ const Crumbs: FC = (): ReactElement => {
               type={item.key === activeTag.key ? "primary" : "default"}
               style={{ cursor: "pointer", fontSize: "12px" }}
               key={item.label}
-              size="middle"
+              size="small"
               onClick={() => handleClickTag(item)}
             >
               <span

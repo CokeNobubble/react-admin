@@ -1,26 +1,32 @@
 :root {
-    --text-color:#000;
-    --bg-color:#fff;
-    --border-color:#f6f6f6;
-    --sider-bg-color:#f6f6f6;
-    --sider-hover-bg-color:#fff;
-    --sider-color:#000;
-    --siderMenu-bg-color:#fcfcfc;
+  --text-color: #000;
+  --bg-color: #fff;
+  --border-color: #f6f6f6;
+  --menuBg: #304156;
+  --subMenuBg: #1f2d3d;
+  --menuText: #bfcbd9;
+  --menuActiveText: #409eff;
+  --menuHover: #263445;
+  --subMenuHover: #001528;
+  --bg-color-overlay: #1d1e1f;
+  --box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  --linear-gradient: linear-gradient(#e66465, #9198e5);
+  --colorBgLayout: #fff;
 }
-
 
 .dark {
-    --text-color:#fff;
-   --bg-color:#141414;
-   --border-color:#333;
-   --sider-bg-color:#141414;
-   --sider-hover-bg-color:#fff;
-   --sider-color:#fff;
-   --siderMenu-bg-color:#000;
+  --text-color: #fff;
+  --bg-color: #141414;
+  --border-color: #333;
+  --menuBg: #1d1e1f;
+  --subMenuBg: #111;
+  --subMenuHover: #111;
+  --menuText: #bfcbd9;
+  --menuActiveText: #409eff;
+  --menuHover: #000;
+  --bg-color-overlay: #1d1e1f;
+  --box-shadow-base: 0 2px 4px rgba(253, 253, 253, 0.1),
+    0 0 6px rgba(255, 254, 254, 0.1);
+  --linear-gradient: linear-gradient(45deg, gold, purple, cyan, deeppink);
+  --colorBgLayout: #141414;
 }
-
-/* .light {
-   --text-color:#000;
-   --bg-color:#fff;
-   --border-color:#f6f6f6
-} */

@@ -44,8 +44,6 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
     return path[path.length - 1];
   }, [location.pathname]);
   const menuList = useSelector((state: IState) => state.permission.menuList);
-  console.log(menuList, "menuList");
-
   /**
    * 处理Tag
    * @param tag  当前点击菜单对象
@@ -113,7 +111,7 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
         className={
           collapsed
             ? "p-20px text-center"
-            : "flex bg-#000 p-20px justify-between"
+            : "flex bg-[var(--bg-color-overlay)] p-20px justify-between"
         }
       >
         <ReactSVG src={reactIcon} className={sideBar.wrapper}></ReactSVG>

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 // import routes from "@/router";
 
 import Router from "@/router";
@@ -8,6 +8,10 @@ import { useSelector } from "react-redux";
 import { IState } from "@/interface";
 
 const App: FC = () => {
+  useEffect(() => {
+    // 防止刷新页面后丢失主题
+    document.documentElement.className = localStorage.getItem("theme") || "";
+  }, []);
   //根据路由表生成对应的路由规则
   // const element = useRoutes(routes);
   // 路由出口
@@ -16,7 +20,10 @@ const App: FC = () => {
   return (
     <ConfigProvider
       theme={{
-        token: { colorPrimary: themeColor },
+        token: {
+          colorPrimary: themeColor,
+          colorBgLayout: "var(--colorBgLayout)",
+        },
         algorithm: themeMode,
       }}
       locale={zhCN}

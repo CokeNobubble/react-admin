@@ -1,11 +1,21 @@
 import { SET_THEME_MODE } from '@/store/contant';
 import { theme } from 'antd';
 
+
+
+
 let initState = {
-  themeMode: theme.defaultAlgorithm
+  themeMode: theme.defaultAlgorithm,
+  checked: true
 }
+
+
+
 type IAction = {
-  data: string | Function,
+  data: {
+    mode: string
+    checked: boolean
+  }
   type: string
 }
 export default (state = initState, action: IAction) => {
@@ -13,7 +23,7 @@ export default (state = initState, action: IAction) => {
   switch (type) {
     case SET_THEME_MODE:
       // 本地存储保存
-      return { ...initState, themeMode: data }
+      return { ...initState, themeMode: data.mode ,checked: data.checked}
     default:
       return state
   }

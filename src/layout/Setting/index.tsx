@@ -1,14 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { SET_THEME_COLOR, SET_THEME_MODE } from "@/store/contant";
 import type { Color } from "antd/es/color-picker";
 import { IState } from "@/interface";
-
-import { ReactElement, FC } from "react";
-import { Switch, Divider, ColorPicker, theme } from "antd";
-import { ReactSVG } from "react-svg";
-import sun from "@/assets/icons/sun.svg";
-import moon from "@/assets/icons/moon.svg";
+import { ReactElement, FC, useEffect } from "react";
+import { Divider, ColorPicker, theme } from "antd";
+import SwitchMode from "@/components/SwitchMode";
 
 type Props = {
   title: String;
@@ -28,11 +25,23 @@ const Setting: FC<Props> = ({ title, onClose }): ReactElement => {
     if (val) {
       dispatch({ type: SET_THEME_MODE, data: theme.defaultAlgorithm });
       document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     } else {
       dispatch({ type: SET_THEME_MODE, data: theme.darkAlgorithm });
       document.documentElement.className = "dark";
+      localStorage.setItem("theme", "dark");
     }
   };
+
+  useEffect(() => {
+    const mode = document.documentElement.getAttribute("class");
+    if (mode === "dark") {
+      dispatch({ type: SET_THEME_MODE, data: theme.darkAlgorithm });
+    } else {
+      dispatch({ type: SET_THEME_MODE, data: theme.defaultAlgorithm });
+    }
+  }, [document.documentElement.getAttribute("class")]);
+
   return (
     <div>
       <div className="border-#eee b-b-1px flex items-center p-x-20px p-y-8px">
@@ -42,32 +51,7 @@ const Setting: FC<Props> = ({ title, onClose }): ReactElement => {
       <div className="p-20px">
         <div className="flex items-center justify-between">
           <h4>主题切换</h4>
-          <Switch
-            checkedChildren={
-              <ReactSVG
-                src={sun}
-                beforeInjection={(svg) => {
-                  svg.setAttribute(
-                    "style",
-                    "width: 16px; height: 16px;margin-top:3px"
-                  );
-                }}
-              ></ReactSVG>
-            }
-            unCheckedChildren={
-              <ReactSVG
-                src={moon}
-                beforeInjection={(svg) => {
-                  svg.setAttribute(
-                    "style",
-                    "width: 16px; height: 16px;margin-top:2px"
-                  );
-                }}
-              ></ReactSVG>
-            }
-            onChange={toggleThemeMode}
-            defaultChecked
-          />
+          <SwitchMode></SwitchMode>
         </div>
         <Divider />
         <div className="flex items-center justify-between">

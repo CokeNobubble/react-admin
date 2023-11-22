@@ -28,6 +28,16 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
+    css: {
+      preprocessorOptions: {
+      less: {
+          javascriptEnabled: true,
+          modifyVars: {
+            'primary-color': 'skyblue',
+          },
+      },
+    },
+    },
     server: {
       port: Number(env.VITE_APP_PORT),
       host: true,

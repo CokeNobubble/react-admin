@@ -41,7 +41,7 @@ const Home: FC = (): ReactElement => {
     <div className="c-[var(--text-color)] flex gap-30px flex-col h-full  w-full">
       <Row>
         <Col span={24}>
-          <div className="shadow-xl p-20px flex items-center rounded-lg justify-between">
+          <div className="shadow-[var(--box-shadow-base)] p-20px flex items-center rounded-lg justify-between">
             <div className="flex items-center gap-10px">
               <Avatar src={url} size={55}></Avatar>
               <h1 className="ml-10px text-16px">Hi,{userinfo.nickname}</h1>

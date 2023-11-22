@@ -78,7 +78,7 @@ const PeiGraph: FC<IProps> = ({
     option && chart.setOption(option);
   };
   return (
-    <div className="shadow-xl p-20px  w-500px flex flex-col">
+    <div className="shadow-[var(--box-shadow-base)] p-20px  w-500px flex flex-col">
       <h1>{title}</h1>
       <div
         style={{ height, width: "100%" }}

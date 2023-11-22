@@ -20,7 +20,7 @@ const SmallCard: FC<IProps> = ({
 }): ReactElement => {
   return (
     <Col className="gutter-row" span={colSpan}>
-      <div className="shadow-lg p-20px flex rounded-lg justify-between">
+      <div className="shadow-[var(--box-shadow-base)] p-20px flex rounded-lg justify-between">
         <ReactSVG className={home.wrapper} src={svgSrc} />
         <div className="c-#606297">
           <h1>{title}</h1>
