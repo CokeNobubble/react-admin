@@ -6,7 +6,8 @@ import { IState } from "@/interface";
 import { ReactElement, FC, useEffect } from "react";
 import { Divider, ColorPicker, theme } from "antd";
 import SwitchMode from "@/components/SwitchMode";
-
+import type { RadioChangeEvent } from "antd";
+import { Radio } from "antd";
 type Props = {
   title: String;
   onClose: Function;
@@ -21,6 +22,10 @@ const Setting: FC<Props> = ({ title, onClose }): ReactElement => {
     dispatch({ type: SET_THEME_COLOR, data: `#${val.toHex()}` });
   };
 
+  const sideBarMode = useSelector(
+    (state: IState) => state.sidebarMode.sidebarMode
+  );
+
   const toggleThemeMode = (val: boolean) => {
     if (val) {
       dispatch({ type: SET_THEME_MODE, data: theme.defaultAlgorithm });
@@ -31,6 +36,11 @@ const Setting: FC<Props> = ({ title, onClose }): ReactElement => {
       document.documentElement.className = "dark";
       localStorage.setItem("theme", "dark");
     }
+  };
+
+  const toggleSidebarMode = (e: RadioChangeEvent) => {
+    dispatch({ type: e.target.value, data: e.target.value });
+    console.log(e.target.value);
   };
 
   useEffect(() => {
@@ -57,6 +67,17 @@ const Setting: FC<Props> = ({ title, onClose }): ReactElement => {
         <div className="flex items-center justify-between">
           <h4>主题颜色</h4>
           <ColorPicker value={color} onChange={changeThemeColor} />
+        </div>
+        <Divider />
+        <div className="flex items-center justify-between">
+          <h4>SideBar模式</h4>
+          <Radio.Group
+            onChange={toggleSidebarMode}
+            defaultValue={sideBarMode || "vertical"}
+          >
+            <Radio.Button value="vertical">垂直</Radio.Button>
+            <Radio.Button value="horizontal">水平</Radio.Button>
+          </Radio.Group>
         </div>
       </div>
     </div>

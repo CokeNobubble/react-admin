@@ -1,7 +1,7 @@
-import { IUser } from '@/store/reducers/user';
-import { IUserinfo } from '@/store/reducers/userinfo';
-import { ICrumbs } from '@/store/reducers/crumbs';
-import { IPermissionState } from '@/store/reducers/permission';
+import { IUser } from "@/store/reducers/user";
+import { IUserinfo } from "@/store/reducers/userinfo";
+import { ICrumbs } from "@/store/reducers/crumbs";
+import { IPermissionState } from "@/store/reducers/permission";
 
 export interface IApiRes<T> {
   code: number;
@@ -22,6 +22,10 @@ export interface ITheme {
   themeColor: string;
 }
 
+export interface ISidebarMode {
+  sidebarMode: string;
+}
+
 /**
  * redux state
  */
@@ -33,6 +37,7 @@ export interface IState {
   themeMode: any;
   crumbs: ICrumbs;
   permission: IPermissionState;
+  sidebarMode: ISidebarMode;
 }
 
 /**

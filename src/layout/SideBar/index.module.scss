@@ -1,0 +1,34 @@
+.wrapper svg {
+  width: 20px;
+  height: 20px;
+}
+
+:global(.ant-layout-sider) {
+  background-color: var(--menuBg) !important;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+:global(.ant-menu-item:not(.ant-menu-item-selected):hover) {
+  background-color: var(--subMenuHover) !important;
+}
+
+:global(.ant-menu-sub) {
+  background-color: var(--subMenuBg) !important;
+}
+
+:global(.ant-menu-submenu-title:hover) {
+  background-color: var(--menuHover) !important;
+}
+
+:global(.ant-menu) {
+  background-color: var(--menuBg);
+}
+
+:global(.ant-menu-item-selected) {
+  color: var(--menuActiveText) !important;
+  background: none !important;
+}

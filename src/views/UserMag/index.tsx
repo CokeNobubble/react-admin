@@ -248,7 +248,7 @@ const UserMag: FC = (): ReactElement => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-30px shadow p-20px">
+      <div className="flex justify-between items-center mb-30px shadow p-20px c-[var(--text-color)]">
         <div className="flex gap-20px items-center">
           {/*<Button type="primary" onClick={ handleAddUser }>新增</Button>*/}
           <span>关键字</span>

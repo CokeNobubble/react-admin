@@ -1,8 +1,7 @@
 import { FC, useEffect } from "react";
-// import routes from "@/router";
 
 import Router from "@/router";
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { useSelector } from "react-redux";
 import { IState } from "@/interface";
@@ -17,13 +16,15 @@ const App: FC = () => {
   // 路由出口
   const { themeColor } = useSelector((state: IState) => state.theme);
   const { themeMode } = useSelector((state: IState) => state.themeMode);
+  const token = {
+    colorPrimary: themeColor,
+    colorBgLayout: "var(--colorBgLayout)",
+    borderRadius: 3,
+  };
   return (
     <ConfigProvider
       theme={{
-        token: {
-          colorPrimary: themeColor,
-          colorBgLayout: "var(--colorBgLayout)",
-        },
+        token: token,
         algorithm: themeMode,
       }}
       locale={zhCN}

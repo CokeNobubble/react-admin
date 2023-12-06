@@ -11,7 +11,7 @@
   --bg-color-overlay: #1d1e1f;
   --box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   --linear-gradient: linear-gradient(#e66465, #9198e5);
-  --colorBgLayout: #fff;
+  --colorBgLayout: #f5f0f0;
 }
 
 .dark {

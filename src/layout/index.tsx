@@ -9,18 +9,22 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Layout } from "antd";
 import SideBar from "@/layout/SideBar";
-import Header from "@/layout/Header";
+import MyHeader from "@/layout/Header";
 import MyContent from "@/layout/Content";
-import MyDrawer from "@/layout/MyDrawer";
 import Crumbs from "./Crumbs";
 import RightPanel from "@/components/RightPanel";
 import Setting from "./Setting";
+
+const { Content, Header, Footer } = Layout;
+import { Breadcrumb, Menu, theme } from "antd";
+import { useSelector } from "react-redux";
+import { IState } from "@/interface";
+import { HORIZONTAL } from "@/store/contant";
 
 const MyLayout: FC = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const rightPanelRef = useRef<HTMLElement | null>(null);
-
   const onClose = useCallback(() => {
     rightPanelRef.current?.click();
   }, []);
@@ -29,11 +33,19 @@ const MyLayout: FC = (): ReactElement => {
     navigate("/home");
   }, []);
 
+  const sidebarMode = useSelector(
+    (state: IState) => state.sidebarMode.sidebarMode
+  );
+
   return (
     <Layout style={{ height: "100%" }}>
-      <SideBar collapsed={collapsed} />
+      <SideBar collapsed={collapsed} width={0} />
       <Layout>
-        <Header setCollapsed={setCollapsed} collapsed={collapsed} />
+        {sidebarMode === HORIZONTAL ? (
+          ""
+        ) : (
+          <MyHeader setCollapsed={setCollapsed} collapsed={collapsed} />
+        )}
         <Crumbs></Crumbs>
         <MyContent />
       </Layout>

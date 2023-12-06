@@ -126,14 +126,14 @@ export const routes: Array<RouterBody> = [
     name: "login",
     component: lazy(() => import("@/views/Login")),
   },
-  {
-    path: '/home',
-    component: lazy(() => import("@/views/Home")),
-  },
-  {
-    path: "*",
-    component: lazy(() => import("@/views/NotFound")),
-  },
+  // {
+  //   path: "/home",
+  //   component: lazy(() => import("@/views/Home")),
+  // },
+  // {
+  //   path: "*",
+  //   component: lazy(() => import("@/views/NotFound")),
+  // },
 ];
 
 // 路由处理方式
@@ -161,7 +161,8 @@ const withLoadingComponent = (routers: Array<RouterBody>): any => {
 };
 
 // 必须这样子，不然会报什么hook错误的问题
-
+console.log(2);
+console.log(routes, "routes");
 const Router = () => useRoutes(withLoadingComponent(routes));
 
 export default Router;

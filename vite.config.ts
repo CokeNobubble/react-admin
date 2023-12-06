@@ -30,13 +30,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     css: {
       preprocessorOptions: {
-      less: {
+        less: {
           javascriptEnabled: true,
           modifyVars: {
-            'primary-color': 'skyblue',
+            "primary-color": "skyblue",
           },
+        },
       },
-    },
     },
     server: {
       port: Number(env.VITE_APP_PORT),

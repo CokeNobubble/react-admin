@@ -1,14 +1,24 @@
-import React, { FC, ReactElement, useEffect, useMemo } from "react";
-import { Layout, Menu } from "antd";
+import { FC, ReactElement, useMemo } from "react";
+import { Layout, Menu, Avatar, Dropdown, Space, Upload, message } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactSVG } from "react-svg";
-import sideBar from "./index.module.css";
+import sideBar from "./index.module.scss";
 import reactIcon from "@/assets/icons/react.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_TAG } from "@/store/contant";
+import { ADD_TAG, HORIZONTAL } from "@/store/contant";
 import { IState } from "@/interface";
 import { ITag } from "@/store/reducers/crumbs";
-import { createFromIconfontCN } from "@ant-design/icons";
+import { createFromIconfontCN, DownOutlined } from "@ant-design/icons";
+import FullScreen from "@/components/FullScreen";
+import type { MenuProps } from "antd";
+
+import { getUserinfoApi } from "@/server/user";
+import { SET_USERINFO } from "@/store/contant";
+import type { UploadProps } from "antd";
+import { getToken } from "@/utils/auth";
+import style from "./index.module.scss";
+import { RcFile } from "antd/es/upload";
+import { isImage } from "@/utils/toolFunc";
 
 const { Sider } = Layout;
 export const MyIcon = createFromIconfontCN({
@@ -17,6 +27,7 @@ export const MyIcon = createFromIconfontCN({
 
 interface IProps {
   collapsed: boolean;
+  width: number;
 }
 
 export interface IRouteConfig {
@@ -33,7 +44,7 @@ interface MenuItem {
   keyPath: string[];
 }
 
-const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
+const SideBar: FC<IProps> = ({ collapsed, width }): ReactElement => {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -43,6 +54,19 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
     const path = location.pathname.split("/");
     return path[path.length - 1];
   }, [location.pathname]);
+  const user_pic = useSelector(
+    (state: IState) => state.userinfoReducer.user_pic
+  );
+  let url: string = useMemo(() => {
+    return `http://localhost:3005/${user_pic}`;
+  }, [user_pic]);
+
+  const sidebarMode = useSelector(
+    (state: IState) => state.sidebarMode.sidebarMode
+  );
+
+  const navigate = useNavigate();
+
   const menuList = useSelector((state: IState) => state.permission.menuList);
   /**
    * 处理Tag
@@ -105,30 +129,126 @@ const SideBar: FC<IProps> = ({ collapsed }): ReactElement => {
     patchTag(findTag as ITag, path);
   };
 
+  const props: UploadProps = {
+    name: "file",
+    action: "http://localhost:3005/user/uploadAvatar",
+    headers: {
+      authorization: `Bearer ${getToken()}`,
+    },
+    beforeUpload: (file: RcFile) => {
+      if (!isImage(file)) {
+        message.error(`请选择图片格式文件`);
+      }
+      return isImage(file) || Upload.LIST_IGNORE;
+    },
+    async onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`上传成功`);
+        const res = await getUserinfoApi();
+        dispatch({ type: SET_USERINFO, data: res.data });
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <div className={style.upload}>
+          <Upload {...props}>
+            <span>上传头像</span>
+          </Upload>
+        </div>
+      ),
+      key: "1",
+    },
+    {
+      label: <span onClick={() => navigate("/home")}>首页</span>,
+      key: "2",
+    },
+    {
+      label: (
+        <span
+          onClick={() => {
+            localStorage.clear();
+            window.location.reload();
+          }}
+        >
+          退出
+        </span>
+      ),
+      key: "3",
+    },
+  ];
+
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
-      <div
-        className={
-          collapsed
-            ? "p-20px text-center"
-            : "flex bg-[var(--bg-color-overlay)] p-20px justify-between"
-        }
-      >
-        <ReactSVG src={reactIcon} className={sideBar.wrapper}></ReactSVG>
-        {collapsed ? (
-          ""
-        ) : (
-          <h1 className="c-#fff text-14px">React-Antd-Admin</h1>
-        )}
-      </div>
-      <Menu
-        theme="dark"
-        mode="inline"
-        selectedKeys={[currentPath]}
-        onClick={clickMenuItem}
-        items={menuList}
-      />
-    </Sider>
+    <>
+      {sidebarMode === HORIZONTAL ? (
+        <div className="flex justify-between bg-[var(--menuBg)] h-50px align-center p-x-20px">
+          <div className="flex items-center gap-10px">
+            <ReactSVG src={reactIcon} className={sideBar.wrapper}></ReactSVG>
+            {collapsed ? (
+              ""
+            ) : (
+              <h1 className="c-#fff text-14px">React-Antd-Admin</h1>
+            )}
+          </div>
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultOpenKeys={[currentPath]}
+            selectedKeys={[currentPath]}
+            onClick={clickMenuItem}
+            items={menuList}
+          />
+          <div className="flex items-center gap-20px c-[var(--menuText)]">
+            <FullScreen></FullScreen>
+            <Avatar
+              className="cursor-pointer"
+              shape="square"
+              src={url}
+              size={40}
+            ></Avatar>
+            <Dropdown menu={{ items }} trigger={["click"]}>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <DownOutlined rev="true" />
+                </Space>
+              </a>
+            </Dropdown>
+          </div>
+        </div>
+      ) : (
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <div
+            className={
+              collapsed
+                ? "p-20px text-center"
+                : "flex bg-[var(--bg-color-overlay)] p-15px justify-between"
+            }
+          >
+            <ReactSVG src={reactIcon} className={sideBar.wrapper}></ReactSVG>
+            {collapsed ? (
+              ""
+            ) : (
+              <h1 className="c-#fff text-14px">React-Antd-Admin</h1>
+            )}
+          </div>
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultOpenKeys={[currentPath]}
+            selectedKeys={[currentPath]}
+            onClick={clickMenuItem}
+            items={menuList}
+          />
+        </Sider>
+      )}
+    </>
   );
 };
 

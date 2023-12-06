@@ -32,7 +32,6 @@ const Index: FC = (): ReactElement => {
       //登录
       try {
         const res = await loginApi(data);
-        console.log(res);
         dispatch({ type: LOGIN, data: res.data.token });
         // 先去请求用户信息
         // getUserinfoApi().then(res => {

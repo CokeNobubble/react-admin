@@ -7,5 +7,7 @@ export const ADD_TAG = "addTag";
 export const ClOSE_TAG = "closeTag";
 export const CLICK_TAG = "clickTag";
 
+export const SET_ROUTES = "setRoutes";
 
-export  const  SET_ROUTES = 'setRoutes'
+export const VERTICAL = "vertical";
+export const HORIZONTAL = "horizontal";

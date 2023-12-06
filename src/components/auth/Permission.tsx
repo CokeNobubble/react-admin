@@ -44,6 +44,7 @@ function ToGetUserinfo() {
     return new Promise(async (resolve, reject) => {
       const res = await getUserinfoApi();
       dispatch({ type: SET_USERINFO, data: res.data });
+      console.log("获取用户信息", res);
       resolve(res.data);
     });
   }
@@ -52,14 +53,13 @@ function ToGetUserinfo() {
 
   async function getDynamicRoute(data: IUserinfo) {
     const res = await getRoutesApi({ role: data.roles[0] });
+    console.log("获取路由表", res);
     const asyncRoutes: RouterBody[] = generateRouter(res.data);
     dispatch({ type: SET_ROUTES, data: asyncRoutes });
     asyncRoutes.forEach((route: RouterBody) => {
       routes.unshift(route);
-      navigateTo(location.pathname);
     });
-
-    // console.log(location.pathname, "location.pathname");
+    navigateTo(location.pathname);
   }
 
   useEffect(() => {
@@ -67,18 +67,6 @@ function ToGetUserinfo() {
       getDynamicRoute(data as IUserinfo);
     });
   }, []);
-  return <div></div>;
-}
-
-function CurrentRoute() {
-  const location = useLocation();
-  const navigateTo = useNavigate();
-
-  useEffect(() => {
-    console.log(location.pathname, "location.pathname");
-    navigateTo(location.pathname);
-  });
-
   return <div></div>;
 }
 
@@ -97,11 +85,9 @@ const AuthRoute: React.FC<RouteProps> = (props) => {
   if (hasToken) {
     // 如果有token 且在登录页直接跳转首页
     // 获取用户信息
-    // const hasUserinfo = getUserinfo();
 
     const hasUserinfo = userinfo.roles && userinfo.roles.length > 0; // 这里到时候根据返回的用户权限数组去判断
-    console.log(userinfo.roles, "userinfo.roles");
-
+    console.log(hasUserinfo, "hasUserinfo");
     if (!hasUserinfo) {
       return <ToGetUserinfo />;
     }
